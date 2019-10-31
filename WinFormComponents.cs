@@ -1,6 +1,21 @@
-﻿///
-/// Davide Carboni
-/// winform components for visual studio
+﻿/// Winform Components for Visual Studio
+/// Carboni Corporation 2019- All right reserved https://www.carboni.ch
+/// Author: Carboni Davide
+///
+/// @copyright Copyright (c) 2019, Carboni Software, Inc.
+/// @license AGPL-3.0
+/// This code is free software: you can redistribute it and/or modify
+/// it under the terms of the GNU Affero General Public License, version 3,
+/// as published by the Free Software Foundation.
+///
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// GNU Affero General Public License for more details.
+///
+/// You should have received a copy of the GNU Affero General Public License, version 3,
+/// along with this program.  If not, see <http://www.gnu.org/licenses/>
+
 
 using System;
 using System.Drawing;
@@ -386,7 +401,7 @@ namespace winform_components
     {
         private const int CS_DROPSHADOW = 0x00020000;
 
-        //deplacememt de la fênetre
+        // form mouve
 
         protected override void WndProc(ref Message m)
         {
@@ -401,7 +416,7 @@ namespace winform_components
             base.WndProc(ref m);
         }
 
-        // effet d'ombre
+        // 3D shadow
 
         protected override CreateParams CreateParams
         {
@@ -490,19 +505,19 @@ namespace winform_components
 
         private System.ComponentModel.IContainer components;
 
-        Color _titleBarColor = TITLEBAR_COLOR; // Title Bar Color
+        Color _titleBarColor = TITLEBAR_COLOR;   // Title Bar Color
         Color _containerColor = CONTAINER_COLOR; // Container Color
-        Color _titleColor = TITLE_COLOR; // Title Text Color
-        string _titleText = "Titre"; // Text of te Title
-        Font _titleFont; // Font of the Title
-        Image _titleImage; // Image for the icon
-        ImageLayout _titleImageLayout; // Layout for the Icon
+        Color _titleColor = TITLE_COLOR;         // Title Text Color
+        string _titleText = "Titre";             // Title text
+        Font _titleFont;                         // Title Font
+        Image _titleImage;                       // Icon image
+        ImageLayout _titleImageLayout;           // Icon layout
 
-        Boolean _titleVisible = true; // Title enabled/disbled
-        Boolean _titleIconVisible = true; //Icon enabled/disbled
-        Boolean _buttonMinimizeVisible = true; // Button Close  enabled/disbled
-        Boolean _buttonMaximizeVisible = true; // Button Maximize  enabled/disbled
-        Boolean _buttonCloseVisible = true; // Button Minimize  enabled/disbled
+        Boolean _titleVisible = true;            // Title enabled/disbled
+        Boolean _titleIconVisible = true;        // Icon enabled/disbled
+        Boolean _buttonMinimizeVisible = true;   // Button Close  enabled/disbled
+        Boolean _buttonMaximizeVisible = true;   // Button Maximize  enabled/disbled
+        Boolean _buttonCloseVisible = true;      // Button Minimize  enabled/disbled
 
         public Color TitleBarColor
         {
@@ -575,7 +590,7 @@ namespace winform_components
             set { _buttonCloseVisible = cmdClose.Visible = value; Title_Button_Dispose(); this.Refresh(); }
         }
 
-        // Color of the buttons
+        // Bbuttons color
 
         static readonly Color TITLEBAR_COLOR = Color.White;
         static readonly Color TITLE_COLOR = Color.Black;
@@ -596,7 +611,7 @@ namespace winform_components
         static readonly Color MINIMIZE_COLOR_LEAVE = Color.White;
         static readonly Color MINIMIZE_COLOR_DOWN = Color.Gray;
 
-        // Animation Button timers
+        // Animation timers
 
         System.Windows.Forms.Timer tmrCloseLeave = new System.Windows.Forms.Timer();
         System.Windows.Forms.Timer tmrMaximizeLeave = new System.Windows.Forms.Timer();
@@ -619,8 +634,8 @@ namespace winform_components
             private bool Above, Right, Under, Left, Right_above, Right_under, Left_under, Left_above;
 
 
-            int Thickness = 6;  //Thickness of border  u can cheang it
-            int Area = 18;     //Thickness of Angle border 
+            int Thickness = 6;  // Thickness of border  u can cheang it
+            int Area = 18;      // Thickness of Angle border 
 
 
             /// <summary>
@@ -640,7 +655,7 @@ namespace winform_components
                 Thickness = 10;
             }
 
-            //Get Mouse Position
+            // Get Mouse Position
             public string getMosuePosition(Point mouse, Form form)
             {
                 bool above_underArea = mouse.X > Area && mouse.X < form.ClientRectangle.Width - Area; /* |\AngleArea(Left_Above)\(=======above_underArea========)/AngleArea(Right_Above)/| */ //Area===>(==)
@@ -668,7 +683,7 @@ namespace winform_components
 
         private const int cGrip = 16;      // Grip size
         private const int cCaption = 32;   // Caption bar height;
-        ReSize resize = new ReSize();     // ReSize Class "/\" To Help Resize Form <None Style>
+        ReSize resize = new ReSize();      // ReSize Class "/\" To Help Resize Form <None Style>
         /*
         public override Size MinimumSize
         {
@@ -679,12 +694,12 @@ namespace winform_components
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
         (
-        int nLeftRect, // x-coordinate of upper-left corner
-        int nTopRect, // y-coordinate of upper-left corner
-        int nRightRect, // x-coordinate of lower-right corner
-        int nBottomRect, // y-coordinate of lower-right corner
-        int nWidthEllipse, // height of ellipse
-        int nHeightEllipse // width of ellipse
+        int nLeftRect,      // x-coordinate of upper-left corner
+        int nTopRect,       // y-coordinate of upper-left corner
+        int nRightRect,     // x-coordinate of lower-right corner
+        int nBottomRect,    // y-coordinate of lower-right corner
+        int nWidthEllipse,  // height of ellipse
+        int nHeightEllipse  // width of ellipse
          );
 
         [DllImport("dwmapi.dll")]
@@ -696,12 +711,12 @@ namespace winform_components
         [DllImport("dwmapi.dll")]
         public static extern int DwmIsCompositionEnabled(ref int pfEnabled);
 
-        private bool m_aeroEnabled;                     // variables for box shadow
+        private bool m_aeroEnabled;                     //  box shadow
         private const int CS_DROPSHADOW = 0x00020000;
         private const int WM_NCPAINT = 0x0085;
         private const int WM_ACTIVATEAPP = 0x001C;
 
-        public struct MARGINS                           // struct for box shadow
+        public struct MARGINS                           // box shadow struct
         {
             public int leftWidth;
             public int rightWidth;
@@ -709,7 +724,7 @@ namespace winform_components
             public int bottomHeight;
         }
 
-        private const int WM_NCHITTEST = 0x84;          // variables for dragging the form
+        private const int WM_NCHITTEST = 0x84;          // variables to dragging the form
         private const int HTCLIENT = 0x1;
         private const int HTCAPTION = 0x2;
         private const int WM_LBUTTONDBLCLK = 0x00A3;
@@ -756,7 +771,7 @@ namespace winform_components
             tmrMaximizeLeave.Interval = 50;
             tmrMinimizeLeave.Interval = 50;
 
-            //Events Timers
+            // Events Timers
             tmrCloseLeave.Tick += new EventHandler(tmrCloseLeave_Tick);
             tmrMaximizeLeave.Tick += new EventHandler(tmrMaximizeLeave_Tick);
             tmrMinimizeLeave.Tick += new EventHandler(tmrMinimizeLeave_Tick);
@@ -767,7 +782,7 @@ namespace winform_components
 
         private void tmrCloseLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button close when mouse leave
+            // Change button close color when mouse leave
 
             {
                 componentColorAlpha_Close -= 85;
@@ -785,7 +800,7 @@ namespace winform_components
 
         private void tmrMaximizeLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button maximize when mouse leave
+            // Change button maximize color when mouse leave
 
             if (componentColorAlpha_Maximize <= 0) // Stop Animation
                 tmrMaximizeLeave.Enabled = false;
@@ -798,7 +813,7 @@ namespace winform_components
 
         private void tmrMinimizeLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button minimize when mouse leave
+            // Change button minimize color when mouse leave
 
             if (componentColorAlpha_Minimize <= 0) // Stop Animation
                 tmrMinimizeLeave.Enabled = false;
@@ -848,7 +863,7 @@ namespace winform_components
 
         private void cmdClose_MouseClick(object sender, EventArgs e)
         {
-            Form.ActiveForm.Close(); // Close the Window
+            Form.ActiveForm.Close(); // Close window
         }
 
         private void cmdClose_Paint(object sender, PaintEventArgs e)
@@ -908,7 +923,7 @@ namespace winform_components
 
         private void cmdMinimize_MouseClick(object sender, MouseEventArgs e)
         {
-            // Change the windows state to minimized
+            // Change minimized windows state
             Form.ActiveForm.WindowState = FormWindowState.Minimized;
         }
 
@@ -924,7 +939,7 @@ namespace winform_components
 
         private void cmdMaximize_MouseClick(object sender, EventArgs e)
         {
-            // Windows State Control and change
+            // Windows state control
 
             if (Form.ActiveForm.WindowState == FormWindowState.Normal)
                 Form.ActiveForm.WindowState = FormWindowState.Maximized;
@@ -1106,7 +1121,7 @@ namespace winform_components
 
         private void Title_Button_Dispose()
         {
-            // Change the buttons position int the title bar
+            // Change the buttons position int the title bar according to the form state
 
             if ((cmdClose.Visible) && (cmdMaximize.Visible) && (cmdMinimize.Visible))
             {
@@ -1254,11 +1269,7 @@ namespace winform_components
     /// </summary>
 
     public class Windows10_Templeate_NoBorder : UserControl
-    {
-        /// <summary>
-        /// Make a windows 10 form template using a user control
-        /// </summary>
-
+    {       
         #region Variables
 
         public System.Windows.Forms.Panel cmdClose;
@@ -1267,7 +1278,7 @@ namespace winform_components
         public System.Windows.Forms.Label lblTitre;
         public System.Windows.Forms.PictureBox picIcon;
 
-        private const int WM_NCHITTEST = 0x84;          // variables for dragging the form
+        private const int WM_NCHITTEST = 0x84;          // variables to dragging form
         private const int HTCLIENT = 0x1;
         private const int HTCAPTION = 0x2;
 
@@ -1281,19 +1292,19 @@ namespace winform_components
 
         private System.ComponentModel.IContainer components;
 
-        Color _titleBarColor = TITLEBAR_COLOR; // Title Bar Color
+        Color _titleBarColor = TITLEBAR_COLOR;   // Title Bar Color
         Color _containerColor = CONTAINER_COLOR; // Container Color
-        Color _titleColor = TITLE_COLOR; // Title Text Color
-        string _titleText = "Titre"; // Text of te Title
-        Font _titleFont; // Font of the Title
-        Image _titleImage; // Image for the icon
-        ImageLayout _titleImageLayout; // Layout for the Icon
+        Color _titleColor = TITLE_COLOR;         // Title Text Color
+        string _titleText = "Titre";             // Title text
+        Font _titleFont;                         // Title font
+        Image _titleImage;                       // Icon image
+        ImageLayout _titleImageLayout;           // Icon layout
 
-        Boolean _titleVisible = true; // Title enabled/disbled
-        Boolean _titleIconVisible = true; //Icon enabled/disbled
-        Boolean _buttonMinimizeVisible = true; // Button Close  enabled/disbled
-        Boolean _buttonMaximizeVisible = true; // Button Maximize  enabled/disbled
-        Boolean _buttonCloseVisible = true; // Button Minimize  enabled/disbled
+        Boolean _titleVisible = true;            // Title enabled/disbled
+        Boolean _titleIconVisible = true;        // Icon enabled/disbled
+        Boolean _buttonMinimizeVisible = true;   // Button Close  enabled/disbled
+        Boolean _buttonMaximizeVisible = true;   // Button Maximize  enabled/disbled
+        Boolean _buttonCloseVisible = true;      // Button Minimize  enabled/disbled
 
         public Color TitleBarColor
         {
@@ -1432,7 +1443,7 @@ namespace winform_components
 
         private void Timer_Entry_Setting()
         {
-            // Initit Timers Buttons Animation Color
+            // Init Button Timers for color animation
 
             // Interval
             tmrCloseLeave.Interval = 50;
@@ -1450,7 +1461,7 @@ namespace winform_components
 
         private void tmrCloseLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button close when mouse leave
+            // Change button close color when mouse leave
 
             {
                 componentColorAlpha_Close -= 85;
@@ -1468,7 +1479,7 @@ namespace winform_components
 
         private void tmrMaximizeLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button maximize when mouse leave
+            // Change button maximize color when mouse leave
 
             if (componentColorAlpha_Maximize <= 0) // Stop Animation
                 tmrMaximizeLeave.Enabled = false;
@@ -1481,7 +1492,7 @@ namespace winform_components
 
         private void tmrMinimizeLeave_Tick(object sender, EventArgs e)
         {
-            // Change the color of button minimize when mouse leave
+            // Change button minimize color when mouse leave
 
             if (componentColorAlpha_Minimize <= 0) // Stop Animation
                 tmrMinimizeLeave.Enabled = false;
@@ -1531,7 +1542,7 @@ namespace winform_components
 
         private void cmdClose_MouseClick(object sender, EventArgs e)
         {
-            Form.ActiveForm.Close(); // Close the Window
+            Form.ActiveForm.Close(); // Close window
         }
 
         private void cmdClose_Paint(object sender, PaintEventArgs e)
@@ -1877,8 +1888,7 @@ namespace winform_components
     {
         #region Variables
 
-        // Object to use during the animation
-
+        // Animated Object
         private System.Windows.Forms.Control _object = null;
 
         public System.Windows.Forms.Control Object
@@ -1900,12 +1910,14 @@ namespace winform_components
             In_The_Bottom
         }
 
+        // Define animation type
         public enum ANIMATION
         {
-            Static,
-            Dinamic
+            Static, // animation dont change position and values when resize form
+            Dinamic // change animations values when form is resized (magnetic option)
         }
 
+        // Define animation when loading (necessary)
         public enum ON_LOAD
         {
             Is_Opened,
@@ -1927,62 +1939,53 @@ namespace winform_components
             public int CloseBearingSize;
         }
 
-        private ON_LOAD _onload; // Option du panneau au démarrage(Ouverte, Férme) // Opzione all'avvio (Aperto o chisuo)
-        private POSITION _position; // Position de l'animation  (Gauche, Droit; Bas, Haut)// Posizione dell'animazione (Destra, Sinistra, in Alto, in Basso)
-        private ANIMATION _animation;
-        private int _closeStep; // Pas d'ouverture // Passo di apertura
-        private int _closeSpeed; // vitesse de l'animation en fermeture
-        private int _openStep; // Pas de fermeture // Passo di chiusura
-        private int _openSpeed; // vitesse de l'animation à l'ouverture
-        private int _openBearingSize; // Taille d'overture du bearing // Dimensione di chiusura del cuscinetto 
-        private int _closeBearingSize; // Taille de fermeture du bearing // Dimensione di chiusura del cuscinetto 
-        private int _size; // Taille d'ouverture et fermeture // Dimensione d'apertura e chiusura del pannello
-        private int _maxLimit; // Limite MAX de l'animation // Limite Massimo dell'animazione
-        private int _minLimit; // Limite MIN de l'animation // Limite Minimo dell'animazione
-        private int _maxSize;
-        private int _openBearingPosition;  // Position du bearing a l'ouverture // Posizione del cuscinetto in apertura
-        private int _closeBearingPosition; // Position du bearing à la fermeture//Posizione del cuscinetto in chiusura
-        private int _walkStep; // Valeur du pas qui peut change en cours d'execution // Valore del passo che in fase di esecuzione puo cambiare
-        private int _stopPosition;
-        private Boolean _magnetic;
-        private Boolean _isOperating;
-        private Boolean _isOpened;
-        private AnchorStyles OldAnhor;
+        private ON_LOAD _onload;              // OnLoad options
+        private POSITION _position;           // Animation side (left, right, top, down)
+        private ANIMATION _animation;         // Define the animation type ( static, dinamic)
+        private int _closeStep;               // Close step (pixel)
+        private int _closeSpeed;              // Close speed
+        private int _openStep;                // Close step (pixel)
+        private int _openSpeed;               // Open speed
+        private int _openBearingSize;         // Open bearing size (pixel) 
+        private int _closeBearingSize;        // Close bearing size (pixel) 
+        private int _size;                    // Open/Close size (pixel)
+        private int _maxLimit;                // Animation max limit (automatically calculated)
+        private int _minLimit;                // Animation min limit (automatically calculated) 
+        private int _maxSize;                 // Animation max size (automatically calculated)  
+        private int _openBearingPosition;     // Open bearing position
+        private int _closeBearingPosition;    // Close bearing position
+        private int _walkStep;                // Walk step.
+        private int _stopPosition;            // Animation stop position (automatically calculated)
+        private Boolean _magnetic;            // Define if the animation must be static in the area or must mouve when resize form
+        private Boolean _isOperating;         // Check if the animation is on
+        private Boolean _isOpened;            // Check if animation is in open or closed
+        private AnchorStyles OldAnhor;        // Remember old anchor style when use magnetic option
 
-        // Dimension original du panneau // Dimensione originale del pannello
-
+        // Original object dimension and position
         public int LocationX;
         public int LocationY;
         public int Width;
         public int Height;
 
-        /// <summary>
-        /// Return the max size of the animation [ only in closed mode]
-        /// </summary>
+        // Return the max size of the animation [ only in closed mode]
         public int MaxSize { get { return _maxSize; } }
-        /// <summary>
-        /// Return the max position where the open animation will be finished
-        /// </summary>
+        
+        // Return the max position where the open animation will be finished
         public int MaxLimit { get { return _maxLimit; } }
-        /// <summary>
-        /// Return the min position where the close animatin will be finished
-        /// </summary>
+        
+        // Return the min position where the close animatin will be finished
         public int MinLimit { get { return _minLimit; } }
-        /// <summary>
-        /// Return the start entry poistion of the Bearing in the open animation
-        /// </summary>
+        
+        // Return the start entry poistion of the Bearing in the open animation
         public int OpenBearingPosition { get { return _openBearingPosition; } }
-        /// <summary>
-        /// Return the start entry position of the Bearing in the close animation
-        /// </summary>
+        
+        // Return the start entry position of the Bearing in the close animation
         public int CloseBearingPosition { get { return _closeBearingPosition; } }
-        /// <summary>
-        /// Return the step of the animation when open or close
-        /// </summary>
+        
+        // Return the step of the animation when open or close
         public int WalkStep { get { return _walkStep; } }
-        /// <summary>
-        /// Return True if the Container is Opened
-        /// </summary>
+        
+        // Return True if the Container is Opened
         public Boolean Is_Opened
         {
             get { return _isOpened; }
@@ -1991,9 +1994,7 @@ namespace winform_components
         public Boolean Is_Opening;
         public Boolean Is_Closing;
 
-        /// <summary>
-        /// Return True if the Animation is working
-        /// </summary>
+        // Return True if the Animation is working
         public Boolean Is_Operating
         {
             get
@@ -2016,9 +2017,8 @@ namespace winform_components
                 _isOperating = value;
             }
         }
-        /// <summary>
-        /// Define where the animation will be developed[Left, Right, Top, Bottom]
-        /// </summary>
+        
+        // Define where the animation will be developed[Left, Right, Top, Bottom]
         public POSITION Position
         {
             get
@@ -2032,9 +2032,8 @@ namespace winform_components
                 Set_Timers();
             }
         }
-        /// <summary>
-        /// Define if the animation is closed or opened at the first time
-        /// </summary>
+        
+        // Define if the animation is closed or opened at the first time
         public ON_LOAD OnLoad
         {
             get
@@ -2048,9 +2047,8 @@ namespace winform_components
                 RefreshEl();
             }
         }
-        /// <summary>
-        /// Define if the animation is Static[the size and position not change with the control] or Dinamic[the size and position change with the control] 
-        /// </summary>
+
+        // Define if the animation is Static[the size and position not change with the control] or Dinamic[the size and position change with the control] 
         public ANIMATION Animation
         {
             get
@@ -2062,9 +2060,8 @@ namespace winform_components
                 _animation = value;
             }
         }
-        /// <summary>
-        /// The size of the animation
-        /// </summary>
+        
+        // The size of the animation
         public int Size
         {
             get
@@ -2077,9 +2074,8 @@ namespace winform_components
                 RefreshEl();
             }
         }
-        /// <summary>
-        /// Define the step of the animation when open
-        /// </summary>
+        
+        // Define the step of the animation when open
         public int OpenStep
         {
             get
@@ -2091,9 +2087,8 @@ namespace winform_components
                 _openStep = value;
             }
         }
-        /// <summary>
-        /// Define the step of the animation when close
-        /// </summary>
+        
+        // Define the step of the animation when close
         public int CloseStep
         {
             get
@@ -2105,9 +2100,8 @@ namespace winform_components
                 _closeStep = value;
             }
         }
-        /// <summary>
-        /// Define the speed animation when open
-        /// </summary>
+        
+        // Define the speed animation when open
         public int OpenSpeed
         {
             get
@@ -2120,9 +2114,8 @@ namespace winform_components
                 else _openSpeed = value;
             }
         }
-        /// <summary>
-        /// Define the speed animation when close
-        /// </summary>
+        
+        // Define the speed animation when close
         public int CloseSpeed
         {
             get
@@ -2135,9 +2128,8 @@ namespace winform_components
                 else _closeSpeed = value;
             }
         }
-        /// <summary>
-        /// Define the size of the bearing when animation is opening
-        /// </summary>
+        
+        // Define the size of the bearing when animation is opening
         public int OpenBearingSize
         {
             get
@@ -2150,9 +2142,8 @@ namespace winform_components
                 RefreshEl();
             }
         }
-        /// <summary>
-        /// Define the size of the bearing when animation is closing
-        /// </summary>
+        
+        // Define the size of the bearing when animation is closing
         public int CloseBearingSize
         {
             get
@@ -2165,9 +2156,8 @@ namespace winform_components
                 RefreshEl();
             }
         }
-        /// <summary>
-        /// Define the position (X or Y) when using the function OpenPanel(position) where the animation will be finisched
-        /// </summary>
+        
+        // Define the position (X or Y) when using the function OpenPanel(position) where the animation will be finisched
         private int StopPosition
         {
             get
@@ -2180,9 +2170,8 @@ namespace winform_components
                 SetPosition();
             }
         }
-        /// <summary>
-        /// Define if the anchor will be added at the end of the animation in the left,right,top or bottom
-        /// </summary>
+        
+        // Define if the anchor will be added at the end of the animation in the left,right,top or bottom
         public Boolean Magnetic
         {
             get
@@ -2202,8 +2191,7 @@ namespace winform_components
 
         private void Init()
         {
-            // Prise de la dimmensione de l'objet
-            // Passaggio della dimmensione dell'oggetto
+            // Take object size
 
             LocationX = _object.Location.X;
             LocationY = _object.Location.Y;
@@ -2217,13 +2205,10 @@ namespace winform_components
             }
         }
 
+        // Init pair of timers depending on the animation area
         private void Set_Timers()
         {
-            // Initialisation des Events pour la couple des timers en fonction de la zone qui devra etre animée
-            // Inizializazzione degli Event per la coppia dei timer in funzione della zona dell'animazione
-
-            // Animation a gauche // Animazione a sinistra
-
+            // Left Animation
             tmrOpen = new System.Windows.Forms.Timer();
             tmrClose = new System.Windows.Forms.Timer();
 
@@ -2233,7 +2218,7 @@ namespace winform_components
                 tmrClose.Tick += new EventHandler(tmrCloseRight_Tick);
             }
 
-            // Animation a droit // Animazione a destra
+            // Right Animation
 
             if (Position == POSITION.In_The_Right)
             {
@@ -2241,7 +2226,7 @@ namespace winform_components
                 tmrClose.Tick += new EventHandler(tmrCloseLeft_Tick);
             }
 
-            // Animation à haut // Animazione in alto
+            // Top Animation
 
             if (Position == POSITION.In_The_Top)
             {
@@ -2249,7 +2234,7 @@ namespace winform_components
                 tmrClose.Tick += new EventHandler(tmrCloseDown_Tick);
             }
 
-            // Animation en bas // Animazione in basso
+            // Bottom animation
 
             if (Position == POSITION.In_The_Bottom)
             {
@@ -2257,22 +2242,22 @@ namespace winform_components
                 tmrClose.Tick += new EventHandler(tmrCloseUp_Tick);
             }
 
-            // Désactivation des timers
-            // Disattivazione dei timer
-
+            // Timers enable/disable
             tmrOpen.Enabled = false;
             tmrClose.Enabled = false;
         }
 
+        // Check max animation size
         private void Check_MaxSize()
         {
-            // Verifica la dimensione massima dell'animazione 
             if (_size > _maxSize)
                 _size = _maxSize;
         }
 
+        // Set margins
         private void SetPosition()
         {
+            // Left animation
             if (Position == POSITION.In_The_Left)
             {
                 if (Is_Opened)
@@ -2291,9 +2276,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit - CloseBearingSize;
             }
 
-            // Pour l'animation a droit
-            // Per l'animazione a destra
-
+            // Right animation
             if (Position == POSITION.In_The_Right)
             {
                 if (Is_Opened)
@@ -2312,9 +2295,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit + CloseBearingSize;
             }
 
-            // Pour l'animation a haut
-            // Per l'animazione in alto
-
+            // Top Aniamtion
             if (Position == POSITION.In_The_Top)
             {
                 if (Is_Opened)
@@ -2333,6 +2314,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit - CloseBearingSize;
             }
 
+            // Bottom animation
             if (Position == POSITION.In_The_Bottom)
             {
                 if (Is_Opened)
@@ -2352,14 +2334,10 @@ namespace winform_components
             }
         }
 
+        // Define margins (max/min open/close limit) when refreshing
         private void Set_Margins()
         {
-            // Définition des margins de travaille (margins) de l'animation. Limite max et min d'ouverture et/ou férmeture en fonction de la zone établi
-            // Définizione della zona di lavoro (margini) dell animazione. Limite massimo e minimo di apetura e/o chiusura in funzione della zona scelta
-
-            // Pour l'animation a gauche
-            // Per l'animazione a sinistra
-
+            // Left Animation
             if (Position == POSITION.In_The_Left)
             {
                 if (Is_Opened)
@@ -2380,9 +2358,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit - CloseBearingSize;
             }
 
-            // Pour l'animation a droit
-            // Per l'animazione a destra
-
+            // Right Animation
             if (Position == POSITION.In_The_Right)
             {
                 if (Is_Opened)
@@ -2403,9 +2379,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit + CloseBearingSize;
             }
 
-            // Pour l'animation a haut
-            // Per l'animazione in alto
-
+            // Top Animation
             if (Position == POSITION.In_The_Top)
             {
                 if (Is_Opened)
@@ -2426,9 +2400,7 @@ namespace winform_components
                 _closeBearingPosition = MinLimit - CloseBearingSize;
             }
 
-            // Pour l'animation en bas
-            // Per l'animazione in basso
-
+            // Bottom animation
             if (Position == POSITION.In_The_Bottom)
             {
 
@@ -2451,6 +2423,7 @@ namespace winform_components
             }
         }
 
+        // Check animation status (opened/closed)
         private void Check_Status()
         {
             if (OnLoad == ON_LOAD.Is_Opened)
@@ -2465,6 +2438,7 @@ namespace winform_components
             }
         }
 
+        // Set margins when refresh
         public void RefreshEl()
         {
             if (Object != null)
@@ -2515,12 +2489,10 @@ namespace winform_components
             Set_Timers();*/
         }
 
-        /// <summary>
-        /// Start the animation/Open the control at the Position
-        /// </summary>
+        // Start open animation with params
         public Boolean OpenPanel(int Position)
         {
-            // Reglages de la couple de Timeur et du pas d'uoverture // Regolazione della coppia dei timeurs e del passo d'apertura
+            // Set pair timers and open step size
             if ((Is_Opening == false) || (Is_Opened == false))
             {
                 tmrOpen.Interval = OpenSpeed;
@@ -2539,12 +2511,10 @@ namespace winform_components
             return true;
         }
 
-        /// <summary>
-        /// Start the animation/Close the control at the Position
-        /// </summary>
+        // Start close animation with params
         public Boolean ClosePanel(int Position)
         {
-            // Reglages de la couple de Timeur et du pas d'ouverture // Regolazione della coppia dei timer e del passo d'apertura
+            // Set pair timers and close step size
             if ((Is_Closing == false) && (Is_Opened == true))
             {
                 _walkStep = CloseStep;
@@ -2564,12 +2534,10 @@ namespace winform_components
             return true;
         }
 
-        /// <summary>
-        /// Start the animation/Open the control with the defined size 
-        /// </summary>
-        public Boolean OpenPanel() // Fonction d'ouverture du panneau
+        // Start open animation
+        public Boolean OpenPanel() 
         {
-            // Reglages de la couple de Timeur et du pas d'uoverture // Regolazione della coppia dei timeurs e del passo d'apertura
+            // Set pair timers and open step size
             tmrOpen.Interval = OpenSpeed;
             _walkStep = OpenStep;
             if ((Is_Opening == false) || (Is_Opened == false))
@@ -2587,12 +2555,10 @@ namespace winform_components
             return true;
         }
 
-        /// <summary>
-        /// Start the animation/Close the control with the defined size
-        /// </summary>
-        public Boolean ClosePanel() // Fonction de fermeture du panneau
+        // Start close animation
+        public Boolean ClosePanel()
         {
-            // Reglages de la couple de Timeur et du pas d'ouverture // Regolazione della coppia dei timer e del passo d'apertura
+            // Set pair timers and close step size
             _walkStep = CloseStep;
             tmrClose.Interval = CloseSpeed;
             if ((Is_Closing == false) && (Is_Opened == true))
@@ -2614,11 +2580,8 @@ namespace winform_components
 
         #region Timer Settings
 
-        //
         // Timers Animation Setings
-        //
-
-        // Gestion des HeventEndler pour chaque animation // Gestion dei HeventHendler per ogni timer
+        // HeventEndler 
 
         #region Open Timers
 
@@ -2661,58 +2624,58 @@ namespace winform_components
 
         private void tmrOpenDown_Tick(object sender, EventArgs e)
         {
-            if ((MaxLimit - Object.Location.Y + Object.Height) <= OpenStep) // Mis a Jour de la valeur du Pas
+            if ((MaxLimit - Object.Location.Y + Object.Height) <= OpenStep) // Update step
                 _walkStep = MaxLimit - (Object.Location.Y + Object.Height);
 
-            if (Object.Location.Y + Object.Height >= MaxLimit) // Condition de Sortie
+            if (Object.Location.Y + Object.Height >= MaxLimit) // main exit condition
                 OpenEndAnimation();
             else
-                if (Object.Location.Y + Object.Height >= OpenBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height + 1); // Fin d'ouverture
+                if (Object.Location.Y + Object.Height >= OpenBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height + 1); // last open animation
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height + WalkStep); // Ouverture normal               
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height + WalkStep); // normal open animation part
         }
 
         private void tmrOpenUp_Tick(object sender, EventArgs e)
         {
-            if ((Object.Location.Y - OpenBearingPosition) <= OpenStep) // Mis a Jour de la valeur du Pas
+            if ((Object.Location.Y - OpenBearingPosition) <= OpenStep) // update step
                 _walkStep = Object.Location.Y - OpenBearingPosition;
 
-            if (Object.Location.Y <= MaxLimit) // Condition de Sortie
+            if (Object.Location.Y <= MaxLimit) // main exit condition
                 OpenEndAnimation();
             else
-                if (Object.Location.Y <= OpenBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X, Object.Location.Y - 1, Object.Size.Width, Object.Size.Height + 1); // Fin d'ouverture
+                if (Object.Location.Y <= OpenBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y - 1, Object.Size.Width, Object.Size.Height + 1); // last open animation part
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y - WalkStep, Object.Size.Width, Object.Size.Height + WalkStep); // Ouverture normal 
+                Object.SetBounds(Object.Location.X, Object.Location.Y - WalkStep, Object.Size.Width, Object.Size.Height + WalkStep); // normal open animation part
         }
 
         private void tmrOpenLeft_Tick(object sender, EventArgs e)
         {
-            if ((Object.Location.X - OpenBearingPosition) <= OpenStep) // Mis a Jour de la valeur du Pas
+            if ((Object.Location.X - OpenBearingPosition) <= OpenStep) // update step
                 _walkStep = Object.Location.X - OpenBearingPosition;
 
-            if (Object.Location.X <= MaxLimit) // Condition de Sortie
+            if (Object.Location.X <= MaxLimit) // main exit condition
                 OpenEndAnimation();
             else
-                if (Object.Location.X <= OpenBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X - 1, Object.Location.Y, Object.Size.Width + 1, Object.Size.Height); // Fin d'ouverture
+                if (Object.Location.X <= OpenBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X - 1, Object.Location.Y, Object.Size.Width + 1, Object.Size.Height); // last open animation part
             else
-                Object.SetBounds(Object.Location.X - WalkStep, Object.Location.Y, Object.Size.Width + WalkStep, Object.Size.Height); // Ouverture normal 
+                Object.SetBounds(Object.Location.X - WalkStep, Object.Location.Y, Object.Size.Width + WalkStep, Object.Size.Height); // normal open animation part
         }
 
         private void tmrOpenRight_Tick(object sender, EventArgs e)
         {
-            if ((OpenBearingPosition - Object.Location.X + Object.Width) < OpenStep) // Mis a Jour de la valeur du Pas
+            if ((OpenBearingPosition - Object.Location.X + Object.Width) < OpenStep) // update step
                 _walkStep = OpenBearingPosition - (Object.Location.X + Object.Width);
 
-            if (Object.Location.X + Object.Width >= MaxLimit) // Condition de Sortie
+            if (Object.Location.X + Object.Width >= MaxLimit) // main exit condition
                 OpenEndAnimation();
             else
-                if (Object.Location.X + Object.Width >= OpenBearingPosition) // Gestion partie finalde la transation
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width + 1, Object.Size.Height); // Fin d'ouverture
+                if (Object.Location.X + Object.Width >= OpenBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width + 1, Object.Size.Height); // last open animation part
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width + WalkStep, Object.Size.Height); // Ouverture 
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width + WalkStep, Object.Size.Height); // normal open animation part
         }
 
         #endregion
@@ -2721,56 +2684,56 @@ namespace winform_components
 
         private void tmrCloseDown_Tick(object sender, EventArgs e)
         {
-            if ((CloseBearingPosition - Object.Location.Y) <= CloseStep) // Mis a Jour de la valeur du Pas
+            if ((CloseBearingPosition - Object.Location.Y) <= CloseStep) // update step
                 _walkStep = CloseBearingPosition - Object.Location.Y;
 
-            if (Object.Location.Y >= MinLimit) // Condition de Sortie
+            if (Object.Location.Y >= MinLimit) // main exit condition
                 CloseEndAnimation();
             else
-                if (Object.Location.Y >= CloseBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X, Object.Location.Y + 1, Object.Size.Width, Object.Size.Height - 1); // Fin d'ouverture
+                if (Object.Location.Y >= CloseBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y + 1, Object.Size.Width, Object.Size.Height - 1); // last open animation part
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y + WalkStep, Object.Size.Width, Object.Size.Height - WalkStep); // Ouverture normal 
+                Object.SetBounds(Object.Location.X, Object.Location.Y + WalkStep, Object.Size.Width, Object.Size.Height - WalkStep); // normal open animation part 
         }
 
         private void tmrCloseUp_Tick(object sender, EventArgs e)
         {
-            if ((Object.Location.Y + Object.Height - CloseBearingPosition) <= CloseStep) // Mis a Jour de la valeur du Pas
+            if ((Object.Location.Y + Object.Height - CloseBearingPosition) <= CloseStep) // update step
                 _walkStep = Object.Location.Y + Object.Height - CloseBearingPosition;
 
-            if (Object.Location.Y + Object.Height <= MinLimit) // Condition de Sortie
+            if (Object.Location.Y + Object.Height <= MinLimit) // main exit condition
                 CloseEndAnimation();
             else
-                if (Object.Location.Y + Object.Height <= CloseBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height - 1); // Fin d'ouverture
+                if (Object.Location.Y + Object.Height <= CloseBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height - 1); // last open animation part
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height - WalkStep); // Ouverture normal 
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width, Object.Size.Height - WalkStep); // normal open animation part 
         }
 
         private void tmrCloseLeft_Tick(object sender, EventArgs e)
         {
-            if ((Object.Location.X + Object.Width - CloseBearingPosition) < CloseStep) // Mis a Jour de la valeur du Pas
+            if ((Object.Location.X + Object.Width - CloseBearingPosition) < CloseStep) // update step
                 _walkStep = Object.Location.X + Object.Width - CloseBearingPosition;
 
-            if (Object.Location.X + Object.Width <= MinLimit) // Condition de Sortie
+            if (Object.Location.X + Object.Width <= MinLimit) // main exit condition
                 CloseEndAnimation();
             else
-                if (Object.Location.X + Object.Width <= CloseBearingPosition) // Gestion partie finalde la transation
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width - 1, Object.Size.Height); // Fin d'ouverture
+                if (Object.Location.X + Object.Width <= CloseBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width - 1, Object.Size.Height); // last open animation part
             else
-                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width - WalkStep, Object.Size.Height); // Ouverture normal 
+                Object.SetBounds(Object.Location.X, Object.Location.Y, Object.Size.Width - WalkStep, Object.Size.Height); // normal open animation part 
         }
 
         private void tmrCloseRight_Tick(object sender, EventArgs e)
         {
-            if ((CloseBearingPosition - Object.Location.X) <= CloseStep) // Mis a Jour de la valeur du Pas
+            if ((CloseBearingPosition - Object.Location.X) <= CloseStep) // update step
                 _walkStep = CloseBearingPosition - Object.Location.X;
 
-            if (Object.Location.X >= MinLimit) // Condition de Sortie
+            if (Object.Location.X >= MinLimit) // main exit condition
                 CloseEndAnimation();
             else
-                if (Object.Location.X >= CloseBearingPosition) // Condition du bearing
-                Object.SetBounds(Object.Location.X + 1, Object.Location.Y, Object.Size.Width - 1, Object.Size.Height); // Fin d'ouverture
+                if (Object.Location.X >= CloseBearingPosition) // bearing condition
+                Object.SetBounds(Object.Location.X + 1, Object.Location.Y, Object.Size.Width - 1, Object.Size.Height); // last open animation part
             else
                 Object.SetBounds(Object.Location.X + WalkStep, Object.Location.Y, Object.Size.Width - WalkStep, Object.Size.Height); // Ouverture normal 
         }
@@ -2780,13 +2743,11 @@ namespace winform_components
 
         #region Init Class
 
-        // Creation et Initialisation de la classe Animation
-        // Creazione e inizializzazione della classe Animazione
+        // Init animation class
 
         public AnimationComponents()
         {
-            // Creation des timers Open et Close
-            // Creazione dei timer di gestion Open e Close
+            // Create Open/Close timers
 
             //tmrOpen = new System.Windows.Forms.Timer();
             //tmrClose = new System.Windows.Forms.Timer();
@@ -2795,19 +2756,13 @@ namespace winform_components
         public AnimationComponents(System.Windows.Forms.Control control, OPTIONS options)
         {
 
-            // Passage du relative User Control pour lequel il faut utiliser l'animation
-            // Passagio dell'oggetto User Control per il quale si vuole l'animazione
-
+            // Animated object
             Object = control;
 
-            // Creation des timers Open et Close
-            // Creazione dei timer di gestion Open e Close
-
+            // Create Open/Close timers
             Set_Timers();
 
-            // Passage de paramatres a l'animation
-            // Passagio dei parametri a l'animazione
-
+            // Animation options
             Position = options.Position;
             OnLoad = options.OnLoad;
             OpenSpeed = options.OpenSpeed;
@@ -2820,11 +2775,7 @@ namespace winform_components
             Magnetic = options.Magnetic;
             Animation = options.Animation;
 
-            // Initialisation des timers et passage des "EventHandler" aux timeurs utilisés a chaque tick du timeur
-            // Inizializazzione dei timers et passaggio degli "EventHendler" ai timer che sono utilizzati a ogni occorenza dei timer  
-
-            // Animation a gauche // Animazione a sinistra
-
+            // Set margins according the animation options
             Set_Margins();
         }
 
@@ -2911,20 +2862,18 @@ namespace winform_components
 
         public void Init_AnimationObject(OPTIONS options)
         {
-            // Parametrs d'entreés pour l'initialization
-            // Parametri di partenza per inizializzare l'animazione
-
+            // Init animation
             Interval = options.Interval;
             Type = options.Type;
         }
 
         private void Set_Timer()
         {
-            // Creation du EventHandler // Creazione dell'evento EventHandler per il timer
+            // Timer EventHandler
             tmr_AnimationLine.Dispose();
-            if (Type == TYPE.Vertical) // Vertical // Verticale
+            if (Type == TYPE.Vertical) // Vertical
                 tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Vertical);
-            else // Horizontal // Orizzontale
+            else // Horizontal
                 tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Horizontal);
         }
 
@@ -2932,20 +2881,20 @@ namespace winform_components
         {
             New_Position = Position;
             Is_Operating = true;
-            Desc = Desc_Found(); // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            Start_Step(); // Calcule de la valeur du pas // Calcolo del valore del passo
-            New_Color = color; // Passage de la couleur choisi // Passaggio del colore scelto
-            tmr_AnimationLine.Enabled = true; // Démarrage de l'animation // Inizio della animazione
+            Desc = Desc_Found();                 // Define direction (left, right)
+            Start_Step();                        // Find step 
+            New_Color = color;                   // Color
+            tmr_AnimationLine.Enabled = true;    // Animation start
         }
 
         public void MoveObject(int Position)
         {
             New_Position = Position;
             Is_Operating = true;
-            Desc = Desc_Found(); // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            Start_Step(); // Calcule de la valeur du pas // Calcolo del valore del passo
-            New_Color = Object.BackColor; // Passage de la couleur choisi // Passaggio del colore scelto
-            tmr_AnimationLine.Enabled = true; // Démarrage de l'animation // Inizio della animazione
+            Desc = Desc_Found();                // Define direction (left, right)
+            Start_Step();                       // Find step
+            New_Color = Object.BackColor;       // Color
+            tmr_AnimationLine.Enabled = true;   // Animation start
         }
 
         public void Refresh(System.Windows.Forms.Control Object)
@@ -2956,17 +2905,15 @@ namespace winform_components
 
         private Boolean Desc_Found()
         {
-            // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            // Definizione della direzione dello spostamento (verso il basso/destra o la sinistra/alto)
-
-            if (Type == TYPE.Vertical) // Vertical // Verticale
+            // Define direction
+            if (Type == TYPE.Vertical) // Vertical
             {
                 if (New_Position > Object.Location.Y)
                     return true;
                 else
                     return false;
             }
-            else // Horizontal // Orizzontale
+            else // Horizontal
             {
                 if (New_Position > Object.Location.X)
                     return true;
@@ -2977,38 +2924,36 @@ namespace winform_components
 
         private void End_Step()
         {
-            // Calcule de la valeur du pas final à utiliser dans la derniere transaction
-            // Calcolo del valore del passo da utilizzare nell'ultima transazione
-
-            if (Desc) // Per la phase descedant  ou droite gauche // Per la fase discendente  o sinistra destra
+            // Calculate end step transaction
+            if (Desc) // For the descending or left-right phase
             {
-                if (Type == TYPE.Vertical) // Pas final vertical // Passo finale verticale
+                if (Type == TYPE.Vertical) // Final vertical step
                 {
-                    if ((New_Position - Object.Location.Y) <= Step) // mise à jour du pas
+                    if ((New_Position - Object.Location.Y) <= Step) // step update
                         Step = New_Position - Object.Location.Y;
                     else
                         Step = (Object.Height / 20);
                 }
-                else  // Pas final horizontal // Passo finalel orizzontale
+                else  // Final horizontal step
                 {
-                    if ((New_Position - Object.Location.X) <= Step) // mise à jour du pas
+                    if ((New_Position - Object.Location.X) <= Step) // step update
                         Step = New_Position - Object.Location.X;
                     else
                         Step = (Object.Width / 20);
                 }
             }
-            else // Pour la phase montant // Per la fase montante
+            else //  For the ascending phase
             {
-                if (Type == TYPE.Vertical) // Pas final vertical // Passo finale verticale
+                if (Type == TYPE.Vertical) // Final vertical step
                 {
-                    if ((Object.Location.Y - New_Position) <= Step) // mise à jour du pas
+                    if ((Object.Location.Y - New_Position) <= Step) // step update
                         Step = Object.Location.Y - New_Position;
                     else
                         Step = (Object.Height / 20);
                 }
-                else // Pas final horizontal // Passo finalel orizzontale
+                else // Final horizontal step
                 {
-                    if ((Object.Location.X - New_Position) <= Step)// mise à jour du pas
+                    if ((Object.Location.X - New_Position) <= Step) // step update
                         Step = Object.Location.X - New_Position;
                     else
                         Step = (Object.Width / 20);
@@ -3018,21 +2963,19 @@ namespace winform_components
 
         private void Start_Step()
         {
-            // Calcule de la valeur du pas en fonction de la longeur de la transaction 
-            // Calcolo del valore del passo in funzione della lunghezza della transazione 
-
+            // Find step according of the animation size 
             Frame = FRAME_NUMBER;
 
-            if ((Desc)) // Pour la phase descedant  ou droite gauche // Per la fase discendente  o sinistra destra
+            if ((Desc)) // For the descending or left-right phase
             {
-                if (Type == TYPE.Vertical) // Pas vertical // Passo verticale
+                if (Type == TYPE.Vertical) // Vertical step
                     Step = (New_Position - Object.Location.Y) / FRAME_NUMBER;
                 else
                     Step = (New_Position - Object.Location.X) / FRAME_NUMBER;
             }
-            else // Pour la phase montant ou droite gauche // Per la fase montante o sinistra destra
+            else // For the ascending or left-right phase
             {
-                if (Type == TYPE.Vertical) // Pas horizontal // Passo orizzontale
+                if (Type == TYPE.Vertical) // Horizontal step
                     Step = (Object.Location.Y - New_Position) / FRAME_NUMBER;
                 else
                     Step = (Object.Location.X - New_Position) / FRAME_NUMBER;
@@ -3043,62 +2986,58 @@ namespace winform_components
 
         #region Event's Timer
 
+        // Vertical timer
         private void tmrAnimation_Object_Vertical(object sender, EventArgs e)
         {
-            // Timeur de géstion du déplacemt Vertical
-            // Timer per la gestione dello spostamento Verticale 
-
-            if (New_Position == Object.Location.Y) // Condition de sortie
+            if (New_Position == Object.Location.Y) // exit condition
             {
                 tmr_AnimationLine.Enabled = Is_Operating = false;
-                Object.BackColor = New_Color; // Mise a jour de la couleur
+                Object.BackColor = New_Color; // update color
             }
-            else // Gestion du déplacement
-                if (Desc) // Pour la phase descendant // Per la fase in discesa
+            else // Move management
+                if (Desc) // Descending phase
             {
-                if (Frame == 1) // Géstion de la dérniere partie
+                if (Frame == 1) // end part
                     End_Step();
                 else
                     Frame--;
-                Object.SetBounds(Object.Location.X, Object.Location.Y + Step, Object.Width, Object.Height); // Déplacement
+                Object.SetBounds(Object.Location.X, Object.Location.Y + Step, Object.Width, Object.Height); // Mouve
             }
-            else // Pour la phase montant // Per la fase in salita
+            else // Ascending phase
             {
-                if (Frame == 1) // Géstion de la dérniere partie
+                if (Frame == 1) // end part
                     End_Step();
                 else
                     Frame--;
-                Object.SetBounds(Object.Location.X, Object.Location.Y - Step, Object.Width, Object.Height); // Déplacement
+                Object.SetBounds(Object.Location.X, Object.Location.Y - Step, Object.Width, Object.Height); // Mouve
             }
         }
 
+        // Horizontal timer
         private void tmrAnimation_Object_Horizontal(object sender, EventArgs e)
         {
-            // Timeur de géstion du déplacemt Horizontal
-            // Timer per la gestione dello spostamento Orizzontale
-
-            if (New_Position == Object.Location.X) // Condition de sortie
+            if (New_Position == Object.Location.X) // exit condition
             {
                 tmr_AnimationLine.Enabled = Is_Operating = false;
-                Object.BackColor = New_Color; // Mise a jour de la couleur
+                Object.BackColor = New_Color; // update color
             }
-            else // Géstion du déplacement
-                if (Desc) // Pour la phase à droite // Per la fase a destra
+            else // Move management
+                if (Desc) // Right
             {
-                if (Frame == 1) // Géstion de la dérniere partie
+                if (Frame == 1) // last part
                     End_Step();
                 else
                     Frame--;
-                Object.SetBounds(Object.Location.X + Step, Object.Location.Y, Object.Width, Object.Height); // Déplacement
+                Object.SetBounds(Object.Location.X + Step, Object.Location.Y, Object.Width, Object.Height); // Mouve
 
             }
-            else // Pour la phase à gauche // Per la fase a sinistra
+            else // Left
             {
-                if (Frame == 1)  // Géstion de la dérniere partie
+                if (Frame == 1)  // last part
                     End_Step();
                 else
                     Frame--;
-                Object.SetBounds(Object.Location.X - Step, Object.Location.Y, Object.Width, Object.Height); // Déplacement
+                Object.SetBounds(Object.Location.X - Step, Object.Location.Y, Object.Width, Object.Height); // Mouve
             }
         }
 
@@ -3140,9 +3079,7 @@ namespace winform_components
 
         #region Variables
 
-        // Nombre de parties dans laquelle l'animation et composée ou numero des sequence de l'animation
-        // Numero dei segmenti in cui viene divisa l'animazione o numero delle sequenze
-
+        // Frame animation nnumber
         static readonly int FRAME_NUMBER = 10;
 
         public struct OPTIONS
@@ -3177,20 +3114,18 @@ namespace winform_components
                 }
             }
         }
-        private int New_Position; // Cible de la ligne ou point d'arrivé // Punto di destinazione della line
-        private int Step_AnimationLine; // Pas de déplacement de la ligne// Passo dello spostamento della linea
-        private int Frame; // Contateur qui tien compte de la sequence des déplacement     
-        private bool Desc = false; // Direction du déplament. Ver les bas/droit ou haut/gauche
-        public TYPE Type // Type dé deplacement (Vertical / Horizontal) // Tipo dello spostamento (Veticale / Orizzontale)
+        private int New_Position;       // line point end
+        private int Step_AnimationLine; // step animation
+        private int Frame;              // frame counter   
+        private bool Desc = false;      // Direction (left/right top/down)
+        public TYPE Type                
         {
             get { return _type; }
             set { _type = value; Set_Timer(); }
         }
-        private Color New_Color; // Couleur de la ligne // Colore della linea
+        private Color New_Color;        // line color
 
-        // Timeur utilisé pour l'animation
-        // Timer per l'animazione
-
+        // Animation timer
         public System.Windows.Forms.Timer tmr_AnimationLine;
 
         #endregion
@@ -3199,66 +3134,58 @@ namespace winform_components
 
         public void Init_AnimationLine(OPTIONS options)
         {
-            // Parametrs d'entreés pour l'initialization
-            // Parametri di partenza per inizializzare l'animazione
-
+            // Init
             Interval = options.Interval;
             Type = options.Type;
         }
 
         private void Set_Timer()
         {
-            // Creation du EventHandler // Creazione dell'evento EventHandler per il timer
+            // Make new timer EventHandler
 
-            if (Type == TYPE.Vertical) // Vertical // Verticale
+            if (Type == TYPE.Vertical) // Vertical
                 tmr_AnimationLine.Tick += new EventHandler(tmrAnimatioLine_Vertical);
-            else // Horizontal // Orizzontale
+            else // Horizontal
                 tmr_AnimationLine.Tick += new EventHandler(tmrAnimatioLine_Horizontal);
         }
 
         public void MoveLine(System.Drawing.Point Position, Color color)
         {
-            // Extrapolation de la position depuis la varible Position en fonction de la modalité ( Vertical / Horizontal)
-            // Estrapolazione della posizione dalla varibile Position in funzione della modalita scelta ( Veticale / Orizzontale)
-
+            // Extrapolation of the position from the Variable Position according to the selected mode (Veticale / Orizzontale)
             if (Type == TYPE.Vertical)
                 New_Position = Position.Y;
             else
                 New_Position = Position.X;
-            Desc = Desc_Found(); // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            Start_Step(); // Calcule de la valeur du pas // Calcolo del valore del passo
-            New_Color = color; // Passage de la couleur choisi // Passaggio del colore scelto
-            tmr_AnimationLine.Enabled = true; // Démarrage de l'animation // Inizio della animazione
+            Desc = Desc_Found();              // Direction
+            Start_Step();                     // Find step animation
+            New_Color = color;                // Color
+            tmr_AnimationLine.Enabled = true; // Animation start
         }
 
         public void MoveLine(System.Drawing.Point Position)
         {
-            // Extrapolation de la position depuis la varible Position en fonction de la modalité ( Vertical / Horizontal)
-            // Estrapolazione della posizione dalla varibile Position in funzione della modalita scelta ( Veticale / Orizzontale)
-
+            // Extrapolation of the position from the Variable Position according to the selected mode (Veticale / Orizzontale)
             if (Type == TYPE.Vertical)
                 New_Position = Position.Y;
             else
                 New_Position = Position.X;
-            Desc = Desc_Found(); // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            Start_Step(); // Calcule de la valeur du pas // Calcolo del valore del passo
-            New_Color = this.BackColor; // Passage de la couleur choisi // Passaggio del colore scelto
-            tmr_AnimationLine.Enabled = true; // Démarrage de l'animation // Inizio della animazione
+            Desc = Desc_Found();              // Direction
+            Start_Step();                     // Find step animation
+            New_Color = this.BackColor;       // Color
+            tmr_AnimationLine.Enabled = true; // Animation start
         }
 
         private Boolean Desc_Found()
         {
-            // Définition de la direction du dèplacement (vers le bas/droite ou la gauche/sinistra)
-            // Definizione della direzione dello spostamento (verso il basso/destra o la sinistra/alto)
-
-            if (Type == TYPE.Vertical) // Vertical // Verticale
+            // Check direction (left/right or top/down)
+            if (Type == TYPE.Vertical) // Vertical
             {
                 if (New_Position > this.Location.Y)
                     return true;
                 else
                     return false;
             }
-            else // Horizontal // Orizzontale
+            else // Horizontal
             {
                 if (New_Position > this.Location.X)
                     return true;
@@ -3269,38 +3196,36 @@ namespace winform_components
 
         private void End_Step()
         {
-            // Calcule de la valeur du pas final à utiliser dans la derniere transaction
-            // Calcolo del valore del passo da utilizzare nell'ultima transazione
-
-            if (Desc) // Per la phase descedant  ou droite gauche // Per la fase discendente  o sinistra destra
+            // Find the step size for the last animation part
+            if (Desc) // For the descending or left-right phase
             {
-                if (Type == TYPE.Vertical) // Pas final vertical // Passo finale verticale
+                if (Type == TYPE.Vertical) // vertical final step
                 {
-                    if ((New_Position - this.Location.Y) < Step_AnimationLine) // mise à jour du pas
+                    if ((New_Position - this.Location.Y) < Step_AnimationLine) // update step
                         Step_AnimationLine = New_Position - this.Location.Y;
                     else
                         Step_AnimationLine = (this.Height / 20);
                 }
-                else  // Pas final horizontal // Passo finalel orizzontale
+                else  // horizontal final step
                 {
-                    if ((New_Position - this.Location.X) < Step_AnimationLine) // mise à jour du pas
+                    if ((New_Position - this.Location.X) < Step_AnimationLine) // update step
                         Step_AnimationLine = New_Position - this.Location.X;
                     else
                         Step_AnimationLine = (this.Width / 20);
                 }
             }
-            else // Pour la phase montant // Per la fase montante
+            else // For the mounting phase
             {
-                if (Type == TYPE.Vertical) // Pas final vertical // Passo finale verticale
+                if (Type == TYPE.Vertical) // final vertical step
                 {
-                    if ((this.Location.Y - New_Position) < Step_AnimationLine) // mise à jour du pas
+                    if ((this.Location.Y - New_Position) < Step_AnimationLine) // update step
                         Step_AnimationLine = this.Location.Y - New_Position;
                     else
                         Step_AnimationLine = (this.Height / 20);
                 }
-                else // Pas final horizontal // Passo finalel orizzontale
+                else // final horizontal step
                 {
-                    if ((this.Location.X - New_Position) < Step_AnimationLine)// mise à jour du pas
+                    if ((this.Location.X - New_Position) < Step_AnimationLine) // update step
                         Step_AnimationLine = this.Location.X - New_Position;
                     else
                         Step_AnimationLine = (this.Width / 20);
@@ -3310,19 +3235,17 @@ namespace winform_components
 
         private void Start_Step()
         {
-            // Calcule de la valeur du pas en fonction de la longeur de la transaction 
-            // Calcolo del valore del passo in funzione della lunghezza della transazione 
-
+            // Find the step size according the animation size
             Frame = FRAME_NUMBER;
 
-            if ((Desc)) // Pour la phase descedant  ou droite gauche // Per la fase discendente  o sinistra destra
+            if ((Desc)) // For the descending or left-right phase
             {
-                if (Type == TYPE.Vertical) // Pas vertical // Passo verticale
+                if (Type == TYPE.Vertical) // Vertical step
                     Step_AnimationLine = (New_Position - this.Location.Y) / FRAME_NUMBER;
                 else
                     Step_AnimationLine = (New_Position - this.Location.X) / FRAME_NUMBER;
             }
-            else // Pour la phase montant ou droite gauche // Per la fase montante o sinistra destra
+            else // For the ascending or left-right phase
             {
                 if (Type == TYPE.Vertical) // Pas horizontal // Passo orizzontale
                     Step_AnimationLine = (this.Location.Y - New_Position) / FRAME_NUMBER;
@@ -3337,61 +3260,57 @@ namespace winform_components
 
         private void tmrAnimatioLine_Vertical(object sender, EventArgs e)
         {
-            // Timeur de géstion du déplacemt Vertical
-            // Timer per la gestione dello spostamento Verticale 
-
-            if (New_Position == this.Location.Y) // Condition de sortie
+            // Vertical timer
+            if (New_Position == this.Location.Y) // Exit condition
             {
                 tmr_AnimationLine.Enabled = false;
-                this.BackColor = New_Color; // Mise a jour de la couleur
+                this.BackColor = New_Color; // update color
             }
-            else // Gestion du déplacement
-                if (Desc) // Pour la phase descendant // Per la fase in discesa
-            {
-                if (Frame == 1) // Géstion de la dérniere partie
-                    End_Step();
-                else
-                    Frame--;
-                this.SetBounds(this.Location.X, this.Location.Y + Step_AnimationLine, this.Width, this.Height); // Déplacement
-            }
-            else // Pour la phase montant // Per la fase in salita
-            {
-                if (Frame == 1) // Géstion de la dérniere partie
-                    End_Step();
-                else
-                    Frame--;
-                this.SetBounds(this.Location.X, this.Location.Y - Step_AnimationLine, this.Width, this.Height); // Déplacement
-            }
+            else
+                if (Desc) // Right or Top
+                {
+                    if (Frame == 1) // last animation part
+                        End_Step();
+                    else
+                        Frame--;
+                    this.SetBounds(this.Location.X, this.Location.Y + Step_AnimationLine, this.Width, this.Height); // Mouve
+                }
+                else // Left or Down
+                {
+                    if (Frame == 1) // last animation part
+                        End_Step();
+                    else
+                        Frame--;
+                    this.SetBounds(this.Location.X, this.Location.Y - Step_AnimationLine, this.Width, this.Height); // Mouve
+                }
         }
 
         private void tmrAnimatioLine_Horizontal(object sender, EventArgs e)
         {
-            // Timeur de géstion du déplacemt Horizontal
-            // Timer per la gestione dello spostamento Orizzontale
-
-            if (New_Position == this.Location.X) // Condition de sortie
+            // Horizontal timer
+            if (New_Position == this.Location.X) // Exit condition
             {
                 tmr_AnimationLine.Enabled = false;
-                this.BackColor = New_Color; // Mise a jour de la couleur
+                this.BackColor = New_Color; // update color
             }
-            else // Géstion du déplacement
-                if (Desc) // Pour la phase à droite // Per la fase a destra
-            {
-                if (Frame == 1) // Géstion de la dérniere partie
-                    End_Step();
-                else
-                    Frame--;
-                this.SetBounds(this.Location.X + Step_AnimationLine, this.Location.Y, this.Width, this.Height); // Déplacement
+            else // Mouve
+                if (Desc) // Right or Top
+                {
+                    if (Frame == 1) // last animation part
+                        End_Step();
+                    else
+                        Frame--;
+                    this.SetBounds(this.Location.X + Step_AnimationLine, this.Location.Y, this.Width, this.Height); // Mouve
 
-            }
-            else // Pour la phase à gauche // Per la fase a sinistra
-            {
-                if (Frame == 1)  // Géstion de la dérniere partie
-                    End_Step();
-                else
-                    Frame--;
-                this.SetBounds(this.Location.X - Step_AnimationLine, this.Location.Y, this.Width, this.Height); // Déplacement
-            }
+                }
+                else // Left or Down
+                {
+                    if (Frame == 1)  // last animation part
+                        End_Step();
+                    else
+                        Frame--;
+                    this.SetBounds(this.Location.X - Step_AnimationLine, this.Location.Y, this.Width, this.Height); // Mouve
+                }
         }
 
         #endregion        
@@ -3450,13 +3369,13 @@ namespace winform_components
 
         #region Variables
 
-        private Color _fillColor = Color.Black; // Couleur de remplissage // Colore di riempimento
-        private Color _backColor = Color.LightGray; // Couleur du fond // Colore di sfondo
-        private int _thickness = 5; // Valeur du  épaisseur // Valore dello spessore
-        private int _perimeter = 90; // Valeur du périmètre // Valore del perimetro
-        private int _fillSize = 25; // Diménsion du circle à dessiner // Dimmensione del cerchio da disegnar
-        private Boolean _activated = true; // activation ou déactivation du graphique // attivazione o disattivazione del grafico
-        private Boolean _textVisible = true; // text active ou no // testo attivo o no
+        private Color _fillColor = Color.Black;     // Fill color
+        private Color _backColor = Color.LightGray; // Background color
+        private int _thickness = 5;                 // Thickness size
+        private int _perimeter = 90;                // Perimeter size
+        private int _fillSize = 25;                 // Fill size
+        private Boolean _activated = true;          
+        private Boolean _textVisible = true;        
 
         public System.Windows.Forms.Label lbl_Info;
 
@@ -3511,8 +3430,7 @@ namespace winform_components
             get { return _fillSize; }
             set
             {
-                // Vérification des valeurs d'entrées (les valeurs péermis sont 0..100)
-                // Controllo dei valori d'ingresso (valori consentiti sono 0..100)
+                // Check entry values
                 if (value <= 0)
                 {
                     _fillSize = 0;
@@ -3528,10 +3446,10 @@ namespace winform_components
                     else
                     {
                         _fillSize = value;
-                        _perimeter = Convert.ToUInt16(value * 3.6); // Conversion en radiants // Conversione in radianti
+                        _perimeter = Convert.ToUInt16(value * 3.6); // Radiants convertion
                     }
                 }
-                this.Refresh(); // Mise à jour de l'ovverride // Richiama l'ovveride per il controllo
+                this.Refresh();
             }
         }
 
@@ -3578,7 +3496,7 @@ namespace winform_components
 
         private void Circle_Paint(object sender, PaintEventArgs e)
         {
-            // Définition de la qualité // Definizione della qualità
+            // Quality
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             e.Graphics.CompositingMode = CompositingMode.SourceOver;
@@ -3654,10 +3572,10 @@ namespace winform_components
 
         public System.Windows.Forms.Label lbl_Info;
 
-        private Color _fillColor = Color.Black; // Couleur de remplissage // Colore di riempimento
-        private Color _backColor = Color.LightGray; // Couleur du fond // Colore di sfondo
-        private Color _textColor = Color.White; // Couleur du text // Colore del testo
-        private int _fillSize = 25; // Diménsion du circle à dessiner // Dimmensione del cerchio da disegnare
+        private Color _fillColor = Color.Black;      // Fill color
+        private Color _backColor = Color.LightGray;  // Background color
+        private Color _textColor = Color.White;      // Text color
+        private int _fillSize = 25;                  // Fill size
         private Boolean _TextVisible = true;
         private STYLE _style = STYLE.Horizontal;
         private Boolean _activated = true;
@@ -3740,8 +3658,7 @@ namespace winform_components
             }
             set
             {
-                // Vérification des valeurs d'entrées (les valeurs péermis sont 0..100)
-                // Controllo dei valori d'ingresso (valori consentiti sono 0..100)
+                // Check entry values
                 if (value <= 0)
                 {
                     _fillSize = 0;
@@ -3757,7 +3674,7 @@ namespace winform_components
                         _fillSize = value;
                     }
                 }
-                this.Refresh(); // Mise à jour de l'ovverride // Richiama l'ovveride per il controllo
+                this.Refresh();
             }
         }
 
@@ -3784,7 +3701,7 @@ namespace winform_components
 
         private void Bar_Paint(object sender, PaintEventArgs e)
         {
-            // Définition de la qualité // Definizione della qualità
+            // Quality
             /*
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.InterpolationMode = InterpolationMode.High;
@@ -3798,12 +3715,12 @@ namespace winform_components
                 this._backColor = Color.LightGray;
                 _fillSize = 0;
             }
-            if (Style == STYLE.Horizontal) // bar horizontal
+            if (Style == STYLE.Horizontal) // horizontal bar
             {
                 e.Graphics.FillRectangle(new SolidBrush(BarBackColor), FillSize, 0, this.Width, this.Height); // parti droite
                 e.Graphics.FillRectangle(new SolidBrush(BarFillColor), 0, 0, FillSize, this.Height); // parti gauche
             }
-            else // bar vertical
+            else // vertical bar
             {
                 e.Graphics.FillRectangle(new SolidBrush(BarFillColor), 0, this.Height - FillSize, this.Width, this.Height); // parti inferior
                 e.Graphics.FillRectangle(new SolidBrush(BarBackColor), 0, 0, this.Width, this.Height - FillSize); // parti supeirior
