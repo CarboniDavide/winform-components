@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
-namespace winform_components
+namespace WinformComponents
 {
 
     #region Window Shadow Aereo
