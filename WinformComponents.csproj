@@ -7,8 +7,8 @@
     <ProjectGuid>{B998AD1B-D6AB-4D4E-A079-C327F2CC8913}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>winform_components</RootNamespace>
-    <AssemblyName>winform-components</AssemblyName>
+    <RootNamespace>WinformComponents</RootNamespace>
+    <AssemblyName>WinformComponents</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
