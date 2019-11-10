@@ -2189,10 +2189,18 @@ namespace WinformComponents
 
         #region Base Animation's Functions
 
+        private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
+        {
+            //Enable double buffeing for ListView Img_List to prevent the flikering 
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
+        }
         private void Init()
         {
             // Take object size
 
+            this.SetDoubleBuffering(this.Object, true);
             LocationX = _object.Location.X;
             LocationY = _object.Location.Y;
             Width = _object.Width;
@@ -2774,7 +2782,6 @@ namespace WinformComponents
             Size = options.Size;
             Magnetic = options.Magnetic;
             Animation = options.Animation;
-
             // Set margins according the animation options
             Set_Margins();
         }
@@ -2819,7 +2826,7 @@ namespace WinformComponents
         public System.Windows.Forms.Control Object
         {
             get { return _object; }
-            set { _object = value; }
+            set { _object = value; this.SetDoubleBuffering(_object, true); }
         }
 
         public Boolean Is_Operating = false;
@@ -2858,7 +2865,15 @@ namespace WinformComponents
 
         #endregion
 
-        #region Functions        
+        #region Functions       
+
+        private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
+        {
+            //Enable double buffeing for ListView Img_List to prevent the flikering 
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
+        }
 
         public void Init_AnimationObject(OPTIONS options)
         {
@@ -3149,6 +3164,14 @@ namespace WinformComponents
                 tmr_AnimationLine.Tick += new EventHandler(tmrAnimatioLine_Horizontal);
         }
 
+        private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
+        {
+            //Enable double buffeing for ListView Img_List to prevent the flikering 
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
+        }
+
         public void MoveLine(System.Drawing.Point Position, Color color)
         {
             // Extrapolation of the position from the Variable Position according to the selected mode (Veticale / Orizzontale)
@@ -3335,6 +3358,7 @@ namespace WinformComponents
             tmr_AnimationLine = new Timer();
             Interval = options.Interval;
             Type = options.Type;
+            this.SetDoubleBuffering(this, true);
         }
 
         public AnimationLine()
@@ -3350,6 +3374,7 @@ namespace WinformComponents
             this.Size = new System.Drawing.Size(206, 193);
             this.ResumeLayout(false);
             tmr_AnimationLine = new Timer();
+            this.SetDoubleBuffering(this, true);
         }
 
         #endregion
@@ -3494,6 +3519,14 @@ namespace WinformComponents
             this.FillSize = FillSize;
         }
 
+        private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
+        {
+            //Enable double buffeing for ListView Img_List to prevent the flikering 
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
+        }
+
         private void Circle_Paint(object sender, PaintEventArgs e)
         {
             // Quality
@@ -3552,6 +3585,8 @@ namespace WinformComponents
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Circle_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
+
+            this.SetDoubleBuffering(this, true);
         }
 
         #endregion
@@ -3699,6 +3734,13 @@ namespace WinformComponents
             this.FillSize = Size;
         }
 
+        private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
+        {
+            //Enable double buffeing for ListView Img_List to prevent the flikering 
+            System.Reflection.PropertyInfo controlProperty = typeof(System.Windows.Forms.Control)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            controlProperty.SetValue(control, value, null);
+        }
         private void Bar_Paint(object sender, PaintEventArgs e)
         {
             // Quality
@@ -3761,6 +3803,7 @@ namespace WinformComponents
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Bar_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.SetDoubleBuffering(this, true);
         }
 
         #endregion
