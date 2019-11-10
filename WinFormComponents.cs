@@ -3398,7 +3398,7 @@ namespace WinformComponents
         private Color _backColor = Color.LightGray; // Background color
         private int _thickness = 5;                 // Thickness size
         private int _perimeter = 90;                // Perimeter size
-        private int _fillSize = 25;                 // Fill size
+        private int? _fillSize = 25;                 // Fill size
         private Boolean _activated = true;          
         private Boolean _textVisible = true;        
 
@@ -3450,13 +3450,13 @@ namespace WinformComponents
             }
         }
 
-        public int FillSize
+        public int? FillSize
         {
             get { return _fillSize; }
             set
             {
                 // Check entry values
-                if (value <= 0)
+                if ((value <= 0) || (value == null))
                 {
                     _fillSize = 0;
                     _perimeter = 0;
@@ -3610,7 +3610,7 @@ namespace WinformComponents
         private Color _fillColor = Color.Black;      // Fill color
         private Color _backColor = Color.LightGray;  // Background color
         private Color _textColor = Color.White;      // Text color
-        private int _fillSize = 25;                  // Fill size
+        private int? _fillSize = 25;                  // Fill size
         private Boolean _TextVisible = true;
         private STYLE _style = STYLE.Horizontal;
         private Boolean _activated = true;
@@ -3633,12 +3633,12 @@ namespace WinformComponents
             set { _style = value; this.Refresh(); }
         }
 
-        public int BarFillSize
+        public int? BarFillSize
         {
             get { return _fillSize; }
             set
             {
-                if (value <= 0)
+                if ((value <= 0) || (value == null))
                 {
                     _fillSize = 0;
                 }
