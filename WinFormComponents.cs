@@ -3772,9 +3772,9 @@ namespace WinformComponents
         {
             // Quality
             
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-            e.Graphics.InterpolationMode = InterpolationMode.High;
-            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.CompositingQuality = CompositingQuality.AssumeLinear;
            
             //
             // Bar
