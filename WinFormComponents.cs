@@ -3605,34 +3605,55 @@ namespace WinformComponents
 
         #region Variables
 
-        public System.Windows.Forms.Label lbl_Info;
-
+        private System.Windows.Forms.Label lbl_Info;
         private Color _fillColor = Color.Black;      // Fill color
         private Color _backColor = Color.LightGray;  // Background color
-        private Color _textColor = Color.White;      // Text color
         private int? _fillSize = 25;                  // Fill size
-        private Boolean _TextVisible = true;
         private STYLE _style = STYLE.Horizontal;
         private Boolean _activated = true;
-
+        private ContentType _chartText;
+        private String _customText;
         public Boolean Activated
         {
             get { return _activated; }
             set { _activated = value; this.Refresh(); }
         }
+        public string CustomText 
+        {
+            get { return _customText; }
+            set { _customText = value; this.Refresh(); }
+        }
+        public ContentAlignment Alignment 
+        {
+            get { return lbl_Info.TextAlign; }
+            set { lbl_Info.TextAlign = value; this.Refresh(); }
+        }
 
+        public ContentType ChartText
+        {
+            get { return _chartText; }
+            set { 
+                _chartText = value;
+                UpdateText();
+                this.Refresh(); 
+                }
+        }
+        public enum ContentType
+        {
+            None,
+            FillSize,
+            CustomText
+        }
         public enum STYLE
         {
             Vertical,
             Horizontal
         }
-
         public STYLE Style
         {
             get { return _style; }
             set { _style = value; this.Refresh(); }
         }
-
         public int? BarFillSize
         {
             get { return _fillSize; }
@@ -3656,31 +3677,30 @@ namespace WinformComponents
                 this.Refresh();
             }
         }
-
-        public Boolean TextVisible
-        {
-            get { return _TextVisible; }
-            set { _TextVisible = value; this.Refresh(); }
-        }
-
         public Color TextColor
         {
-            get { return _textColor; }
-            set { _textColor = value; this.Refresh(); }
+            get { return lbl_Info.ForeColor; }
+            set { lbl_Info.ForeColor = value; this.Refresh(); }
         }
-
         public Color BarFillColor
         {
             get { return _fillColor; }
             set { _fillColor = value; this.Refresh(); }
         }
-
         public Color BarBackColor
         {
             get { return _backColor; }
             set { _backColor = value; this.Refresh(); }
         }
-
+        public Font TextFont
+        {
+            get { return this.lbl_Info.Font; }
+            set 
+            {
+                this.lbl_Info.Font = value;
+                this.Refresh();
+            }
+        }
         private int FillSize
         {
             get
@@ -3741,6 +3761,13 @@ namespace WinformComponents
             .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             controlProperty.SetValue(control, value, null);
         }
+
+        public void UpdateText()
+        {
+            lbl_Info.Visible = !(_chartText == ContentType.None);
+            if (_chartText == ContentType.FillSize) lbl_Info.Text = BarFillSize.ToString() + "%";
+            if (_chartText == ContentType.CustomText) lbl_Info.Text = CustomText;
+        }
         private void Bar_Paint(object sender, PaintEventArgs e)
         {
             // Quality
@@ -3770,8 +3797,11 @@ namespace WinformComponents
             //
             // Text
             //
-            if (TextVisible)
-                TextRenderer.DrawText(e.Graphics, BarFillSize.ToString() + "%", this.Font, new Point((this.Width / 2) - (lbl_Info.Width / 2) - 2, (this.Height / 2) - (lbl_Info.Height / 2)), this.TextColor);
+            UpdateText();
+            /*if (ShowContent == TEXT_SHOW.FillSize)
+                TextRenderer.DrawText(e.Graphics, this.BarFillSize.ToString() + "%", this.TextFont, this.lbl_Info.Location, this.TextColor);
+            if (ShowContent == TEXT_SHOW.CustomText)
+                TextRenderer.DrawText(e.Graphics, this.CustomText, this.TextFont, this.lbl_Info.Location, this.TextColor);*/
         }
 
         #endregion
@@ -3785,16 +3815,20 @@ namespace WinformComponents
             // 
             // lbl_Info
             // 
-            this.lbl_Info.AutoSize = true;
-            this.lbl_Info.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_Info.Location = new System.Drawing.Point(37, 43);
+            this.lbl_Info.AutoSize = false;
+            this.lbl_Info.Dock = DockStyle.Fill;
+            this.lbl_Info.TextAlign = ContentAlignment.MiddleCenter;
+            this.lbl_Info.BackColor = Color.Transparent;
             this.lbl_Info.Name = "lbl_Info";
-            this.lbl_Info.Size = new System.Drawing.Size(27, 13);
-            this.lbl_Info.Text = _fillSize.ToString();
-            this.lbl_Info.Visible = false;
+            this.lbl_Info.Visible = true;
+            this.lbl_Info.ForeColor = Color.White;
+            this.lbl_Info.Font = this.Font;
             // 
             // BarChart
             // 
+            this.TextColor = Color.White;
+            this.Alignment = ContentAlignment.MiddleCenter;
+            this.ChartText = ContentType.FillSize;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lbl_Info);
@@ -3811,6 +3845,5 @@ namespace WinformComponents
 
 
 
-    #endregion  
-
+    #endregion
 }
