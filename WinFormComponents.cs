@@ -3771,11 +3771,11 @@ namespace WinformComponents
         private void Bar_Paint(object sender, PaintEventArgs e)
         {
             // Quality
-            /*
+            
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.InterpolationMode = InterpolationMode.High;
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
-            */
+           
             //
             // Bar
             //      
