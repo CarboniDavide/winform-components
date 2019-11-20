@@ -2805,6 +2805,9 @@ namespace WinformComponents
         #region Variables
 
         static readonly int FRAME_NUMBER = 10;
+        public event EventHandler OnStartMoving;
+        public event EventHandler OnFinishMoving;
+        private Boolean _isOperating = false;
 
         public struct OPTIONS
         {
@@ -2829,7 +2832,16 @@ namespace WinformComponents
             set { _object = value; this.SetDoubleBuffering(_object, true); }
         }
 
-        public Boolean Is_Operating = false;
+        public Boolean IsOperating
+        {
+            get { return _isOperating; }
+            set
+            {
+                _isOperating = value;
+                if (value) OnStart(EventArgs.Empty);
+                else OnFinish(EventArgs.Empty);
+            }
+        }
 
         public int Interval // define speed
         {
@@ -2867,6 +2879,18 @@ namespace WinformComponents
 
         #region Functions       
 
+        protected virtual void OnStart(EventArgs e)
+        {
+            EventHandler handler = OnStartMoving;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnFinish(EventArgs e)
+        {
+            EventHandler handler = OnFinishMoving;
+            handler?.Invoke(this, e);
+        }
+
         private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
         {
             //Enable double buffeing for ListView Img_List to prevent the flikering 
@@ -2895,7 +2919,7 @@ namespace WinformComponents
         public void MoveObject(int Position, Color color)
         {
             New_Position = Position;
-            Is_Operating = true;
+            IsOperating = true;
             Desc = Desc_Found();                 // Define direction (left, right)
             Start_Step();                        // Find step 
             New_Color = color;                   // Color
@@ -2905,7 +2929,7 @@ namespace WinformComponents
         public void MoveObject(int Position)
         {
             New_Position = Position;
-            Is_Operating = true;
+            IsOperating = true;
             Desc = Desc_Found();                // Define direction (left, right)
             Start_Step();                       // Find step
             New_Color = Object.BackColor;       // Color
@@ -3006,7 +3030,8 @@ namespace WinformComponents
         {
             if (New_Position == Object.Location.Y) // exit condition
             {
-                tmr_AnimationLine.Enabled = Is_Operating = false;
+                tmr_AnimationLine.Enabled = false;
+                IsOperating = false;
                 Object.BackColor = New_Color; // update color
             }
             else // Move management
@@ -3033,7 +3058,8 @@ namespace WinformComponents
         {
             if (New_Position == Object.Location.X) // exit condition
             {
-                tmr_AnimationLine.Enabled = Is_Operating = false;
+                tmr_AnimationLine.Enabled = false;
+                IsOperating = false;
                 Object.BackColor = New_Color; // update color
             }
             else // Move management
@@ -3613,6 +3639,7 @@ namespace WinformComponents
         private Boolean _activated = true;
         private ContentType _chartText;
         private String _customText;
+       
         public Boolean Activated
         {
             get { return _activated; }
