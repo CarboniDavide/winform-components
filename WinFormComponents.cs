@@ -3874,4 +3874,69 @@ namespace WinformComponents
 
 
     #endregion
+
+    #region ThreadSystem
+
+    public class ThreadSystem
+    {
+        private Action action;
+        private Thread th;
+        private int delay;
+        
+        public event EventHandler OnStart;
+        public event EventHandler OnAbort;
+
+        protected virtual void OnStartTh(EventArgs e)
+        {
+            EventHandler handler = OnStart;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnAbortTh(EventArgs e)
+        {
+            EventHandler handler = OnAbort;
+            handler?.Invoke(this, e);
+        }
+
+        private void execute()
+        {
+            try
+            {
+                while (true)
+                {
+                    action.Invoke();
+                    Thread.Sleep(delay);
+                }
+            }
+            catch (ThreadAbortException e)
+            {
+                OnAbortTh(EventArgs.Empty);
+            }
+        }
+
+        private void Start()
+        {
+            if (th == null) createTh();
+            th.Start();
+            OnStartTh(EventArgs.Empty);
+        }
+
+        private void Abort()
+        {
+            if (th == null) return;
+            th.Abort();
+            th = null;
+        }
+
+        private void createTh()
+        {
+            th = new Thread(new ThreadStart(execute));
+        }
+        public ThreadSystem(Action ActionToRun)
+        {
+            action = ActionToRun;
+        }
+    }
+
+    #endregion
 }
