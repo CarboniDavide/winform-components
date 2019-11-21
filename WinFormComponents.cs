@@ -24,6 +24,7 @@ using System.Security.Permissions;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace WinformComponents
 {
@@ -3091,14 +3092,14 @@ namespace WinformComponents
             //
             // Timer
             //
-            tmr_AnimationLine = new Timer();
+            tmr_AnimationLine = new System.Windows.Forms.Timer();
             Interval = options.Interval;
             Type = options.Type;
         }
 
         public MoveOBject()
         {
-            tmr_AnimationLine = new Timer();
+            tmr_AnimationLine = new System.Windows.Forms.Timer();
         }
 
         #endregion
@@ -3381,7 +3382,7 @@ namespace WinformComponents
             //
             // Timer
             //
-            tmr_AnimationLine = new Timer();
+            tmr_AnimationLine = new System.Windows.Forms.Timer();
             Interval = options.Interval;
             Type = options.Type;
             this.SetDoubleBuffering(this, true);
@@ -3399,7 +3400,7 @@ namespace WinformComponents
             this.Name = "AnimationLine";
             this.Size = new System.Drawing.Size(206, 193);
             this.ResumeLayout(false);
-            tmr_AnimationLine = new Timer();
+            tmr_AnimationLine = new System.Windows.Forms.Timer();
             this.SetDoubleBuffering(this, true);
         }
 
