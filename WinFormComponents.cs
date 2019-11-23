@@ -2809,6 +2809,8 @@ namespace WinformComponents
         public event EventHandler OnStartMoving;
         public event EventHandler OnFinishMoving;
         private Boolean _isOperating = false;
+        private Action action;
+        private ThreadSystem th;
 
         public struct OPTIONS
         {
@@ -2852,12 +2854,10 @@ namespace WinformComponents
                 if (value == 0)
                 {
                     _interval = 100;
-                    tmr_AnimationLine.Interval = 100;
                 }
                 else
                 {
                     _interval = value;
-                    tmr_AnimationLine.Interval = value;
                 }
             }
         }
@@ -2873,8 +2873,6 @@ namespace WinformComponents
         private Color New_Color;    // line color
 
         // Animation's Timers
-
-        public System.Windows.Forms.Timer tmr_AnimationLine;
 
         #endregion
 
@@ -2910,11 +2908,10 @@ namespace WinformComponents
         private void Set_Timer()
         {
             // Timer EventHandler
-            tmr_AnimationLine.Dispose();
             if (Type == TYPE.Vertical) // Vertical
-                tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Vertical);
+                action = MoveVert;
             else // Horizontal
-                tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Horizontal);
+                action = MoveHor;
         }
 
         public void MoveObject(int Position, Color color)
@@ -2924,7 +2921,8 @@ namespace WinformComponents
             Desc = Desc_Found();                 // Define direction (left, right)
             Start_Step();                        // Find step 
             New_Color = color;                   // Color
-            tmr_AnimationLine.Enabled = true;    // Animation start
+            th = new ThreadSystem(action, Interval);   // Animation start
+            th.Start();
         }
 
         public void MoveObject(int Position)
@@ -2934,7 +2932,8 @@ namespace WinformComponents
             Desc = Desc_Found();                // Define direction (left, right)
             Start_Step();                       // Find step
             New_Color = Object.BackColor;       // Color
-            tmr_AnimationLine.Enabled = true;   // Animation start
+            th = new ThreadSystem(action, Interval);   // Animation start
+            th.Start();
         }
 
         public void Refresh(System.Windows.Forms.Control Object)
@@ -3027,11 +3026,11 @@ namespace WinformComponents
         #region Event's Timer
 
         // Vertical timer
-        private void tmrAnimation_Object_Vertical(object sender, EventArgs e)
+        private void MoveVert()
         {
             if (New_Position == Object.Location.Y) // exit condition
             {
-                tmr_AnimationLine.Enabled = false;
+                th.Abort();
                 IsOperating = false;
                 Object.BackColor = New_Color; // update color
             }
@@ -3055,11 +3054,11 @@ namespace WinformComponents
         }
 
         // Horizontal timer
-        private void tmrAnimation_Object_Horizontal(object sender, EventArgs e)
+        private void MoveHor()
         {
             if (New_Position == Object.Location.X) // exit condition
             {
-                tmr_AnimationLine.Enabled = false;
+                th.Abort();
                 IsOperating = false;
                 Object.BackColor = New_Color; // update color
             }
@@ -3089,17 +3088,12 @@ namespace WinformComponents
 
         public MoveOBject(OPTIONS options)
         {
-            //
-            // Timer
-            //
-            tmr_AnimationLine = new System.Windows.Forms.Timer();
             Interval = options.Interval;
             Type = options.Type;
         }
 
         public MoveOBject()
         {
-            tmr_AnimationLine = new System.Windows.Forms.Timer();
         }
 
         #endregion
@@ -3880,8 +3874,8 @@ namespace WinformComponents
     public class ThreadSystem
     {
         private Action action;
-        private Thread th;
-        private int delay;
+        private System.Windows.Forms.Timer timer;
+        private int interval;
         
         public event EventHandler OnStart;
         public event EventHandler OnAbort;
@@ -3898,43 +3892,36 @@ namespace WinformComponents
             handler?.Invoke(this, e);
         }
 
-        private void execute()
+        private void excuteInBk(object sender, EventArgs e)
         {
-            try
-            {
-                while (true)
-                {
-                    action.Invoke();
-                    Thread.Sleep(delay);
-                }
-            }
-            catch (ThreadAbortException e)
-            {
-                OnAbortTh(EventArgs.Empty);
-            }
+            action.Invoke();
         }
-
-        private void Start()
+        public void Start()
         {
-            if (th == null) createTh();
-            th.Start();
+            if (timer == null) createTh();
+            timer.Enabled = true;
             OnStartTh(EventArgs.Empty);
         }
 
-        private void Abort()
+        public void Abort()
         {
-            if (th == null) return;
-            th.Abort();
-            th = null;
+            if (timer == null) return;
+            timer.Enabled = false;
+            OnAbortTh(EventArgs.Empty);
         }
 
         private void createTh()
         {
-            th = new Thread(new ThreadStart(execute));
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = interval;
+            timer.Tick += new EventHandler(excuteInBk);
+            timer.Enabled = false;
         }
-        public ThreadSystem(Action ActionToRun)
+
+        public ThreadSystem(Action ActionToRun, int Interval)
         {
             action = ActionToRun;
+            interval = Interval;
         }
     }
 
