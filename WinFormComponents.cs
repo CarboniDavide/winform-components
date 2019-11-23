@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace WinformComponents
 {
@@ -2839,8 +2840,6 @@ namespace WinformComponents
             set
             {
                 _isOperating = value;
-                if (value) OnStart(EventArgs.Empty);
-                else OnFinish(EventArgs.Empty);
             }
         }
 
@@ -2852,29 +2851,26 @@ namespace WinformComponents
                 if (value == 0)
                 {
                     _interval = 100;
-                    tmr_AnimationLine.Interval = 100;
                 }
                 else
                 {
                     _interval = value;
-                    tmr_AnimationLine.Interval = value;
                 }
             }
         }
-        private int New_Position;  // end position
-        private int Step;          // step size
-        private int Frame;         // frame counter     
+
+        private int newPosition;  // end position
+        private int step;          // step size
+        private int frame;         // frame counter     
         private bool Desc = false; // direction left/right or top/down
+        private Action actionToRun;
         public TYPE Type           // type (Vertical / Horizontal)
         {
             get { return _type; }
-            set { _type = value; Set_Timer(); }
+            set { _type = value; SetAction(); }
         }
-        private Color New_Color;    // line color
-
-        // Animation's Timers
-
-        public System.Windows.Forms.Timer tmr_AnimationLine;
+        private Color newColor;    // line color
+        private ThreadSystem th;
 
         #endregion
 
@@ -2892,6 +2888,18 @@ namespace WinformComponents
             handler?.Invoke(this, e);
         }
 
+        private void OnStartTh(object sender, EventArgs e)
+        {
+            OnStart(EventArgs.Empty);
+            IsOperating = true;
+        }
+
+        private void OnFinishTh(object sender, EventArgs e)
+        {
+            OnFinish(EventArgs.Empty);
+            IsOperating = false;
+        }
+
         private void SetDoubleBuffering(System.Windows.Forms.Control control, bool value)
         {
             //Enable double buffeing for ListView Img_List to prevent the flikering 
@@ -2907,40 +2915,43 @@ namespace WinformComponents
             Type = options.Type;
         }
 
-        private void Set_Timer()
+        private void SetAction()
         {
             // Timer EventHandler
-            tmr_AnimationLine.Dispose();
             if (Type == TYPE.Vertical) // Vertical
-                tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Vertical);
+                 actionToRun = MoveVertically;
             else // Horizontal
-                tmr_AnimationLine.Tick += new EventHandler(tmrAnimation_Object_Horizontal);
+                actionToRun = MoveHorizontally;
         }
 
         public void MoveObject(int Position, Color color)
         {
-            New_Position = Position;
-            IsOperating = true;
+            newPosition = Position;
             Desc = Desc_Found();                 // Define direction (left, right)
             Start_Step();                        // Find step 
-            New_Color = color;                   // Color
-            tmr_AnimationLine.Enabled = true;    // Animation start
+            newColor = color;                        // Color
+            th = new ThreadSystem(actionToRun, Interval);    // Animation start
+            th.OnAbort += OnFinishTh;
+            th.OnStart += OnStartTh;
+            th.Start();
         }
 
         public void MoveObject(int Position)
         {
-            New_Position = Position;
-            IsOperating = true;
+            newPosition = Position;
             Desc = Desc_Found();                // Define direction (left, right)
             Start_Step();                       // Find step
-            New_Color = Object.BackColor;       // Color
-            tmr_AnimationLine.Enabled = true;   // Animation start
+            newColor = Object.BackColor;       // Color
+            th = new ThreadSystem(actionToRun, Interval);    // Animation start
+            th.OnAbort += OnFinishTh;
+            th.OnStart += OnStartTh;
+            th.Start();
         }
 
         public void Refresh(System.Windows.Forms.Control Object)
         {
             this.Object = Object;
-            Set_Timer();
+            SetAction();
         }
 
         private Boolean Desc_Found()
@@ -2948,14 +2959,14 @@ namespace WinformComponents
             // Define direction
             if (Type == TYPE.Vertical) // Vertical
             {
-                if (New_Position > Object.Location.Y)
+                if (newPosition > Object.Location.Y)
                     return true;
                 else
                     return false;
             }
             else // Horizontal
             {
-                if (New_Position > Object.Location.X)
+                if (newPosition > Object.Location.X)
                     return true;
                 else
                     return false;
@@ -2969,34 +2980,34 @@ namespace WinformComponents
             {
                 if (Type == TYPE.Vertical) // Final vertical step
                 {
-                    if ((New_Position - Object.Location.Y) <= Step) // step update
-                        Step = New_Position - Object.Location.Y;
+                    if ((newPosition - Object.Location.Y) <= step) // step update
+                        step = newPosition - Object.Location.Y;
                     else
-                        Step = (Object.Height / 20);
+                        step = (Object.Height / 20);
                 }
                 else  // Final horizontal step
                 {
-                    if ((New_Position - Object.Location.X) <= Step) // step update
-                        Step = New_Position - Object.Location.X;
+                    if ((newPosition - Object.Location.X) <= step) // step update
+                        step = newPosition - Object.Location.X;
                     else
-                        Step = (Object.Width / 20);
+                        step = (Object.Width / 20);
                 }
             }
             else //  For the ascending phase
             {
                 if (Type == TYPE.Vertical) // Final vertical step
                 {
-                    if ((Object.Location.Y - New_Position) <= Step) // step update
-                        Step = Object.Location.Y - New_Position;
+                    if ((Object.Location.Y - newPosition) <= step) // step update
+                        step = Object.Location.Y - newPosition;
                     else
-                        Step = (Object.Height / 20);
+                        step = (Object.Height / 20);
                 }
                 else // Final horizontal step
                 {
-                    if ((Object.Location.X - New_Position) <= Step) // step update
-                        Step = Object.Location.X - New_Position;
+                    if ((Object.Location.X - newPosition) <= step) // step update
+                        step = Object.Location.X - newPosition;
                     else
-                        Step = (Object.Width / 20);
+                        step = (Object.Width / 20);
                 }
             }
         }
@@ -3004,21 +3015,21 @@ namespace WinformComponents
         private void Start_Step()
         {
             // Find step according of the animation size 
-            Frame = FRAME_NUMBER;
+            frame = FRAME_NUMBER;
 
             if ((Desc)) // For the descending or left-right phase
             {
                 if (Type == TYPE.Vertical) // Vertical step
-                    Step = (New_Position - Object.Location.Y) / FRAME_NUMBER;
+                    step = (newPosition - Object.Location.Y) / FRAME_NUMBER;
                 else
-                    Step = (New_Position - Object.Location.X) / FRAME_NUMBER;
+                    step = (newPosition - Object.Location.X) / FRAME_NUMBER;
             }
             else // For the ascending or left-right phase
             {
                 if (Type == TYPE.Vertical) // Horizontal step
-                    Step = (Object.Location.Y - New_Position) / FRAME_NUMBER;
+                    step = (Object.Location.Y - newPosition) / FRAME_NUMBER;
                 else
-                    Step = (Object.Location.X - New_Position) / FRAME_NUMBER;
+                    step = (Object.Location.X - newPosition) / FRAME_NUMBER;
             }
         }
 
@@ -3027,59 +3038,62 @@ namespace WinformComponents
         #region Event's Timer
 
         // Vertical timer
-        private void tmrAnimation_Object_Vertical(object sender, EventArgs e)
+        private void MoveVertically()
         {
-            if (New_Position == Object.Location.Y) // exit condition
+            if (newPosition == Object.Location.Y) // exit condition
             {
-                tmr_AnimationLine.Enabled = false;
-                IsOperating = false;
-                Object.BackColor = New_Color; // update color
+                th.Abort();
+                Object.BackColor = newColor; // update color
             }
             else // Move management
                 if (Desc) // Descending phase
             {
-                if (Frame == 1) // end part
+                if (frame == 1) // end part
                     End_Step();
                 else
-                    Frame--;
-                Object.SetBounds(Object.Location.X, Object.Location.Y + Step, Object.Width, Object.Height); // Mouve
+                    frame--;
+
+                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X, Object.Location.Y + step, Object.Width, Object.Height); }));
+
             }
             else // Ascending phase
             {
-                if (Frame == 1) // end part
+                if (frame == 1) // end part
                     End_Step();
                 else
-                    Frame--;
-                Object.SetBounds(Object.Location.X, Object.Location.Y - Step, Object.Width, Object.Height); // Mouve
+                    frame--;
+
+                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X, Object.Location.Y - step, Object.Width, Object.Height); }));
             }
         }
 
         // Horizontal timer
-        private void tmrAnimation_Object_Horizontal(object sender, EventArgs e)
+        private void MoveHorizontally()
         {
-            if (New_Position == Object.Location.X) // exit condition
+            if (newPosition == Object.Location.X) // exit condition
             {
-                tmr_AnimationLine.Enabled = false;
-                IsOperating = false;
-                Object.BackColor = New_Color; // update color
+                th.Abort();
+                Object.BackColor = newColor; // update color
             }
             else // Move management
                 if (Desc) // Right
             {
-                if (Frame == 1) // last part
+                if (frame == 1) // last part
                     End_Step();
                 else
-                    Frame--;
-                Object.SetBounds(Object.Location.X + Step, Object.Location.Y, Object.Width, Object.Height); // Mouve
+                    frame--;
+
+                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X + step, Object.Location.Y, Object.Width, Object.Height); }));
 
             }
             else // Left
             {
-                if (Frame == 1)  // last part
+                if (frame == 1)  // last part
                     End_Step();
                 else
-                    Frame--;
-                Object.SetBounds(Object.Location.X - Step, Object.Location.Y, Object.Width, Object.Height); // Mouve
+                    frame--;
+
+                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X - step, Object.Location.Y, Object.Width, Object.Height); }));
             }
         }
 
@@ -3089,18 +3103,11 @@ namespace WinformComponents
 
         public MoveOBject(OPTIONS options)
         {
-            //
-            // Timer
-            //
-            tmr_AnimationLine = new System.Windows.Forms.Timer();
             Interval = options.Interval;
             Type = options.Type;
         }
 
-        public MoveOBject()
-        {
-            tmr_AnimationLine = new System.Windows.Forms.Timer();
-        }
+        public MoveOBject() { }
 
         #endregion
 
@@ -3880,8 +3887,10 @@ namespace WinformComponents
     public class ThreadSystem
     {
         private Action action;
-        private Thread th;
-        private int delay;
+        private CancellationTokenSource tokenSource;
+        private CancellationToken token;
+        private TimeSpan period;
+        private int interval;
         
         public event EventHandler OnStart;
         public event EventHandler OnAbort;
@@ -3898,43 +3907,49 @@ namespace WinformComponents
             handler?.Invoke(this, e);
         }
 
-        private void execute()
+        public async void Run()
         {
-            try
+            OnStartTh(EventArgs.Empty);
+            while (!this.token.IsCancellationRequested)
             {
-                while (true)
+                await Task.Delay(period, token);
+
+                if (!token.IsCancellationRequested)
                 {
-                    action.Invoke();
-                    Thread.Sleep(delay);
+                    await Task.Run(() => action.Invoke());
                 }
             }
-            catch (ThreadAbortException e)
-            {
-                OnAbortTh(EventArgs.Empty);
-            }
+            OnAbortTh(EventArgs.Empty);
         }
 
-        private void Start()
+
+        public void Start()
         {
-            if (th == null) createTh();
-            th.Start();
-            OnStartTh(EventArgs.Empty);
+            if (tokenSource == null) createTh();
+            Run();
         }
 
-        private void Abort()
+        public void Abort()
         {
-            if (th == null) return;
-            th.Abort();
-            th = null;
+            if (tokenSource != null) tokenSource.Cancel();
         }
 
         private void createTh()
         {
-            th = new Thread(new ThreadStart(execute));
+            tokenSource = new CancellationTokenSource();
+            token = tokenSource.Token;
+            period = TimeSpan.FromMilliseconds(interval);
         }
+
         public ThreadSystem(Action ActionToRun)
         {
             action = ActionToRun;
+        }
+
+        public ThreadSystem(Action ActionToRun, int Interval)
+        {
+            action = ActionToRun;
+            this.interval = Interval;
         }
     }
 
