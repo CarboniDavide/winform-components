@@ -2930,7 +2930,7 @@ namespace WinformComponents
             Desc = Desc_Found();                 // Define direction (left, right)
             Start_Step();                        // Find step 
             newColor = color;                        // Color
-            th = new ThreadSystem(actionToRun, Interval);    // Animation start
+            th = new ThreadSystem(actionToRun, Interval, Object);    // Animation start
             th.OnAbort += OnFinishTh;
             th.OnStart += OnStartTh;
             th.Start();
@@ -2942,7 +2942,7 @@ namespace WinformComponents
             Desc = Desc_Found();                // Define direction (left, right)
             Start_Step();                       // Find step
             newColor = Object.BackColor;       // Color
-            th = new ThreadSystem(actionToRun, Interval);    // Animation start
+            th = new ThreadSystem(actionToRun, Interval, Object);    // Animation start
             th.OnAbort += OnFinishTh;
             th.OnStart += OnStartTh;
             th.Start();
@@ -3053,7 +3053,7 @@ namespace WinformComponents
                 else
                     frame--;
 
-                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X, Object.Location.Y + step, Object.Width, Object.Height); }));
+                Object.SetBounds(Object.Location.X, Object.Location.Y + step, Object.Width, Object.Height);
 
             }
             else // Ascending phase
@@ -3063,7 +3063,7 @@ namespace WinformComponents
                 else
                     frame--;
 
-                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X, Object.Location.Y - step, Object.Width, Object.Height); }));
+                Object.SetBounds(Object.Location.X, Object.Location.Y - step, Object.Width, Object.Height);
             }
         }
 
@@ -3083,7 +3083,7 @@ namespace WinformComponents
                 else
                     frame--;
 
-                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X + step, Object.Location.Y, Object.Width, Object.Height); }));
+                Object.SetBounds(Object.Location.X + step, Object.Location.Y, Object.Width, Object.Height); 
 
             }
             else // Left
@@ -3093,7 +3093,7 @@ namespace WinformComponents
                 else
                     frame--;
 
-                Object.Invoke((System.Action)(() => { Object.SetBounds(Object.Location.X - step, Object.Location.Y, Object.Width, Object.Height); }));
+                Object.SetBounds(Object.Location.X - step, Object.Location.Y, Object.Width, Object.Height); 
             }
         }
 
@@ -3891,6 +3891,7 @@ namespace WinformComponents
         private CancellationToken token;
         private TimeSpan period;
         private int interval;
+        private Control objectControl;
         
         public event EventHandler OnStart;
         public event EventHandler OnAbort;
@@ -3916,7 +3917,7 @@ namespace WinformComponents
 
                 if (!token.IsCancellationRequested)
                 {
-                    await Task.Run(() => action.Invoke());
+                    await Task.Run(() => objectControl.Invoke((System.Action)(() => {  action.Invoke(); })) );
                 }
             }
             OnAbortTh(EventArgs.Empty);
@@ -3941,15 +3942,17 @@ namespace WinformComponents
             period = TimeSpan.FromMilliseconds(interval);
         }
 
-        public ThreadSystem(Action ActionToRun)
+        public ThreadSystem(Action ActionToRun, Control ObjectControl)
         {
             action = ActionToRun;
+            this.objectControl = ObjectControl;
         }
 
-        public ThreadSystem(Action ActionToRun, int Interval)
+        public ThreadSystem(Action ActionToRun, int Interval, Control ObjectControl)
         {
             action = ActionToRun;
             this.interval = Interval;
+            this.objectControl = ObjectControl;
         }
     }
 
