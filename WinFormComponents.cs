@@ -3434,7 +3434,7 @@ namespace WinformComponents
         public Boolean Activated
         {
             get { return _activated; }
-            set { _activated = value; this.Refresh(); }
+            set { _activated = value; lbl_Info.Enabled = value; this.Refresh(); }
         }
 
         public Boolean TextVisible
@@ -3482,6 +3482,7 @@ namespace WinformComponents
             get { return _fillSize; }
             set
             {
+                Activated = value == null ? false : true;
                 // Check entry values
                 if ((value <= 0) || (value == null))
                 {
@@ -3644,7 +3645,7 @@ namespace WinformComponents
         public Boolean Activated
         {
             get { return _activated; }
-            set { _activated = value; this.Refresh(); }
+            set { _activated = value; lbl_Info.Enabled = value; this.Refresh(); }
         }
         public string CustomText 
         {
@@ -3687,6 +3688,7 @@ namespace WinformComponents
             get { return _fillSize; }
             set
             {
+                Activated = value == null ? false : true;
                 if ((value <= 0) || (value == null))
                 {
                     _fillSize = 0;
